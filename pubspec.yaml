@@ -1,0 +1,73 @@
+name: too_taps
+description: "A new Flutter project."
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  get: ^4.6.5
+  shared_preferences: ^2.2.3
+  logger: ^2.4.0
+  image_picker: ^1.1.2
+  timezone: ^0.9.4
+  flutter_local_notifications: ^17.2.1+2
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^4.0.0
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  assets:
+    - assets/logo.png
+    - assets/statua_invalid.png
+    - assets/statua_attiva.png
+    - assets/dock_circle.png
+    - assets/dockbar.png
+    - assets/emoji.png
+    - assets/icona_posizione.png
+    - assets/pallino_notifiche.png
+    - assets/panning.png
+    - assets/sezione_pod.png
+    - assets/sezione_pod_active.png
+    - assets/sezione_scroll.png
+    - assets/sezione_scroll_active.png
+    - assets/sezione_tap.png
+    - assets/sezione_tap_active.png
+
+  fonts:
+    - family: PlusJakartaSans
+      fonts:
+        - asset: assets/fonts/PlusJakartaSans-VariableFont_wght.ttf
+        - asset: assets/fonts/PlusJakartaSans-Italic-VariableFont_wght.ttf
+          style: italic
+
+    - family: KeplerStd
+      fonts:
+        - asset: assets/fonts/Kepler-Std-Light-Italic-Subhead.otf
+        - asset: assets/fonts/Kepler-Std-Light-Italic-Subhead.otf
