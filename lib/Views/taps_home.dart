@@ -134,7 +134,7 @@ class TapsHomePageState extends State<TapsHomePage> with SingleTickerProviderSta
                       itemCount: 8, // 8 segnaposto
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                          onTap: () {
+                            onTap: () {
                             setState(() {
                               _selectedIndex = index; // Aggiorna l'indice selezionato
                             });
