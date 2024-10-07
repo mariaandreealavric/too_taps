@@ -26,14 +26,22 @@ class DockCircleWidget extends StatelessWidget {
         return Positioned(
           left: circlePosition - 21, // Centra il dock_circle con l'icona
           bottom: dockCircleAnimation.value, // Anima l'altezza del cerchio verso l'alto
-          child: Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: circleColors[selectedIndex], // Cambia colore in base all'indice selezionato
-              shape: BoxShape.circle,
+          child: TweenAnimationBuilder<Color?>(
+            duration: const Duration(milliseconds: 300),
+            tween: ColorTween(
+              begin: Colors.transparent, // Colore iniziale
+              end: circleColors[selectedIndex], // Colore selezionato
             ),
-
+            builder: (context, color, child) {
+              return Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: color, // Cambia colore in base all'indice selezionato
+                  shape: BoxShape.circle,
+                ),
+              );
+            },
           ),
         );
       },

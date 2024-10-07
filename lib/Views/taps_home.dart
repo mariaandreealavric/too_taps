@@ -104,7 +104,7 @@ class TapsHomePageState extends State<TapsHomePage> with SingleTickerProviderSta
           title: const Text( // Usa il parametro "title" dell'AppBar
             'Taps', // Scritta in piccolo "Taps"
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 20,
               color: Colors.white,
               fontFamily: 'KeplerStd', // Nome della famiglia del font come specificato in pubspec.yaml
               fontStyle: FontStyle.italic,
@@ -125,10 +125,10 @@ class TapsHomePageState extends State<TapsHomePage> with SingleTickerProviderSta
             builder: (context, constraints) {
               return Column(
                 children: [
-                  const SizedBox(height: 60), // Spazio per l'AppBar trasparente
+                  const SizedBox(height: 80), // Spazio per l'AppBar trasparente
                   // Aggiunta dei segnaposto scrollabili
                   SizedBox(
-                    height: 30,
+                    height: 20,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: 8, // 8 segnaposto

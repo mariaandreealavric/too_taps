@@ -7,7 +7,7 @@ import 'package:logger/logger.dart';
 import '../controllers/Contatori/scroll_counter.dart';
 import '../controllers/theme_controller.dart';
 import '../widgets/Navigazione/navigazione.dart'; // Importa Navigation
-
+import '../widgets/title_widget.dart'; // Importa TitleWidget
 import '../controllers/profile_controller.dart';
 
 class ScrollingPage extends StatefulWidget {
@@ -124,22 +124,20 @@ class ScrollingPageState extends State<ScrollingPage> {
                 AppBar(
                   backgroundColor: Colors.transparent,
                   elevation: 0,
-                  title: const Text(
-                    'Scroll Meter',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Hai percorso:\n${scrollCounter.scrolls} $distanceUnit',
-                    textAlign: TextAlign.center,
+                  centerTitle: true,  // Centro il titolo
+                  title: const Text( // Usa il parametro "title" dell'AppBar
+                    'Taps', // Scritta in piccolo "Taps"
                     style: TextStyle(
-                      color: themeController.currentTheme.brightness == Brightness.light ? Colors.blue : Colors.green,
-                      fontSize: 40,
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontFamily: 'KeplerStd', // Nome della famiglia del font come specificato in pubspec.yaml
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
+                ),
+                TitleWidget(
+                  title: 'Taps',
                 ),
                 Expanded(
                   child: ListView.builder(
