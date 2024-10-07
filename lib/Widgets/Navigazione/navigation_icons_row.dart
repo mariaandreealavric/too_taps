@@ -71,14 +71,14 @@ class NavigationIconsRow extends StatelessWidget {
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
+        curve: Curves.easeInOutCubic, // Utilizza una curva più morbida
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             AnimatedContainer(
               duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
+              curve: Curves.easeInOutCubic, // Utilizza una curva più morbida
               transform: Matrix4.translationValues(
                   0, navigationController.selectedIndex.value == index ? -10 : 0, 0),
               child: Image.asset(
