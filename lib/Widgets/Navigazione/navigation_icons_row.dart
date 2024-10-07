@@ -83,8 +83,8 @@ class NavigationIconsRow extends StatelessWidget {
                   0, navigationController.selectedIndex.value == index ? -10 : 0, 0),
               child: Image.asset(
                 navigationController.selectedIndex.value == index ? activeImage : inactiveImage,
-                width: 30.0,
-                height: 30.0,
+                width: 20.0,
+                height: 20.0,
               ),
             ),
           ],

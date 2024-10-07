@@ -24,11 +24,11 @@ class DockCircleWidget extends StatelessWidget {
       animation: animationController,
       builder: (context, child) {
         return Positioned(
-          left: circlePosition - 26, // Centra il dock_circle con l'icona
+          left: circlePosition - 21, // Centra il dock_circle con l'icona
           bottom: dockCircleAnimation.value, // Anima l'altezza del cerchio verso l'alto
           child: Container(
-            width: 50,
-            height: 50,
+            width: 40,
+            height: 40,
             decoration: BoxDecoration(
               color: circleColors[selectedIndex], // Cambia colore in base all'indice selezionato
               shape: BoxShape.circle,
