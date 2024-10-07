@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../controllers/Contatori/navigation_controller.dart';
 import '../../controllers/Contatori/touch_counter.dart';
 import '../../models/profile_model.dart';
 import 'dock_circle_widget.dart';
@@ -17,7 +18,6 @@ class Navigation extends StatefulWidget {
 
 class _NavigationState extends State<Navigation>
     with SingleTickerProviderStateMixin {
-  int _selectedIndex = 0;
 
   // AnimationController per animare il dock circle
   late AnimationController _animationController;
@@ -25,9 +25,9 @@ class _NavigationState extends State<Navigation>
 
   // Posizioni orizzontali relative per le icone
   final List<double> positions = [
-    0.1, // Posizione del primo pulsante
+    0.17, // Posizione del primo pulsante
     0.5, // Posizione del secondo pulsante (centro)
-    0.9, // Posizione del terzo pulsante
+    0.83, // Posizione del terzo pulsante
   ];
 
   // Colori corrispondenti alle icone selezionate
@@ -36,6 +36,8 @@ class _NavigationState extends State<Navigation>
     Colors.blue,   // Colore per il secondo pulsante
     Colors.red,    // Colore per il terzo pulsante
   ];
+
+  final NavigationController navigationController = Get.put(NavigationController());
 
   @override
   void initState() {
@@ -65,38 +67,16 @@ class _NavigationState extends State<Navigation>
     super.dispose();
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    // Riavvia l'animazione del dock circle
-    _animationController.forward(from: 0);
-
-    // Naviga alla pagina corrispondente
-    switch (index) {
-      case 0:
-        Get.toNamed('/taps_home');
-        break;
-      case 1:
-        Get.toNamed('/scrolling');
-        break;
-      case 2:
-        Get.toNamed('/pod');
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final touchController = Get.put(TouchController(widget.profile));
     double width = MediaQuery.of(context).size.width;
 
     // Calcola la posizione orizzontale del dock circle
-    double circlePosition = width * positions[_selectedIndex];
+    double circlePosition = width * positions[navigationController.selectedIndex.value];
 
-    return SizedBox(
-      height: 150, // Altezza totale del widget di navigazione
+    return Obx(() => SizedBox(
+      height: 70, // Altezza totale del widget di navigazione
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
@@ -110,14 +90,12 @@ class _NavigationState extends State<Navigation>
             animationController: _animationController,
             dockCircleAnimation: _dockCircleAnimation,
             circlePosition: circlePosition,
-            selectedIndex: _selectedIndex,
+            selectedIndex: navigationController.selectedIndex.value,
             circleColors: circleColors,
             getActiveImage: _getActiveImage,
           ),
           // Barra di navigazione statica (icone statiche)
           NavigationIconsRow(
-            selectedIndex: _selectedIndex,
-            onItemTapped: _onItemTapped,
             touchController: touchController,
             circleColors: circleColors,
             animationController: _animationController,
@@ -126,11 +104,10 @@ class _NavigationState extends State<Navigation>
           ),
         ],
       ),
-    );
+    ));
   }
-}
 
-// Ottiene l'immagine attiva in base all'indice selezionato
+  // Ottiene l'immagine attiva in base all'indice selezionato
   String _getActiveImage(int index) {
     switch (index) {
       case 0:
@@ -143,4 +120,4 @@ class _NavigationState extends State<Navigation>
         return '';
     }
   }
-
+}

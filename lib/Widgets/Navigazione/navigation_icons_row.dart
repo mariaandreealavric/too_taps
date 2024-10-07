@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../controllers/Contatori/navigation_controller.dart';
 import '../../controllers/Contatori/touch_counter.dart';
 
 class NavigationIconsRow extends StatelessWidget {
-  final int selectedIndex;
-  final Function(int) onItemTapped;
   final TouchController touchController;
   final List<Color> circleColors;
   final AnimationController animationController;
   final Animation<double> dockCircleAnimation;
   final double circlePosition;
 
-  const NavigationIconsRow({
+  NavigationIconsRow({
     Key? key,
-    required this.selectedIndex,
-    required this.onItemTapped,
     required this.touchController,
     required this.circleColors,
     required this.animationController,
@@ -22,53 +19,37 @@ class NavigationIconsRow extends StatelessWidget {
     required this.circlePosition,
   }) : super(key: key);
 
+  final NavigationController navigationController = Get.put(NavigationController());
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Cerchio animato colorato sotto l'icona selezionata
-        AnimatedBuilder(
-          animation: animationController,
-          builder: (context, child) {
-            return Positioned(
-              left: circlePosition - 30, // Centra il dock_circle con l'icona
-              bottom: dockCircleAnimation.value, // Anima l'altezza del cerchio verso l'alto
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: circleColors[selectedIndex], // Cambia colore in base all'indice selezionato
-                  shape: BoxShape.circle,
-                ),
-              ),
-            );
-          },
-        ),
         // Icone di navigazione
         SizedBox(
-          height: 104,
+          height: 70,
           width: double.infinity,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildNavItem(
-                inactiveImage: 'assets/sezione_tap.png',
-                activeImage: 'assets/sezione_tap_active.png',
-                index: 0,
-              ),
-              _buildNavItem(
-                inactiveImage: 'assets/sezione_scroll.png',
-                activeImage: 'assets/sezione_scroll_active.png',
-                index: 1,
-              ),
-              _buildNavItem(
-                inactiveImage: 'assets/sezione_pod.png',
-                activeImage: 'assets/sezione_pod_active.png',
-                index: 2,
-              ),
-            ],
+          child: Obx(
+                () => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildNavItem(
+                  inactiveImage: 'assets/sezione_tap.png',
+                  activeImage: 'assets/sezione_tap_active.png',
+                  index: 0,
+                ),
+                _buildNavItem(
+                  inactiveImage: 'assets/sezione_scroll.png',
+                  activeImage: 'assets/sezione_scroll_active.png',
+                  index: 1,
+                ),
+                _buildNavItem(
+                  inactiveImage: 'assets/sezione_pod.png',
+                  activeImage: 'assets/sezione_pod_active.png',
+                  index: 2,
+                ),
+              ],
+            ),
           ),
         ),
       ],
@@ -82,16 +63,16 @@ class NavigationIconsRow extends StatelessWidget {
   }) {
     return GestureDetector(
       onTap: () {
-        if (selectedIndex != index) {
-          onItemTapped(index);
+        if (navigationController.selectedIndex.value != index) {
+          navigationController.navigateToPage(index);
           touchController.incrementTouches();
-          animationController.forward(); // Avvia l'animazione solo se cambia il bottone selezionato
+          animationController.forward(); // Avvia l'animazione senza tornare all'inizio
         }
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -99,11 +80,11 @@ class NavigationIconsRow extends StatelessWidget {
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
               transform: Matrix4.translationValues(
-                  0, selectedIndex == index ? -10 : 0, 0),
+                  0, navigationController.selectedIndex.value == index ? -10 : 0, 0),
               child: Image.asset(
-                selectedIndex == index ? activeImage : inactiveImage,
-                width: 36.0,
-                height: 36.0,
+                navigationController.selectedIndex.value == index ? activeImage : inactiveImage,
+                width: 30.0,
+                height: 30.0,
               ),
             ),
           ],
