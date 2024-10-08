@@ -22,6 +22,7 @@ class MockProfileModel extends ProfileModel {
     displayName: 'Example User',
     email: 'example@example.com',
     photoUrl: 'https://example.com/photo.jpg',
+    jobTitle: 'Technician',
     touches: 5,
     scrolls: 10,
     trophies: ['Trophy1', 'Trophy2'],

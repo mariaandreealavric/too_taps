@@ -136,22 +136,39 @@ class ScrollingPageState extends State<ScrollingPage> {
                     ),
                   ),
                 ),
-                TitleWidget(
-                  title: 'Taps',
-                ),
                 Expanded(
-                  child: ListView.builder(
-                    controller: _scrollController,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        height: _itemHeight,
-                        color: _itemColors[index % _itemColors.length],
-                        child: const ListTile(
-                          title: Text(' '),
+                  child: Align(
+                    alignment: Alignment.bottomRight, // Fissa il contenuto in basso a destra
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0), // Aggiunge un po' di padding se necessario
+                      child: RichText(
+                        textAlign: TextAlign.right, // Allinea il testo a destra
+                        text: TextSpan(
+                          children: [
+                            const TextSpan(
+                              text: 'Scrolling', // Testo prima di andare a capo
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 80,
+                                fontFamily: 'KeplerStd', // Nome della famiglia del font come specificato in pubspec.yaml
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                            TextSpan(
+                              text: '\n${scrollCounter.scrolls}', // A capo con il numero dei tocchi
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 60,
+                                fontFamily: 'PlusJakartaSans', // Nome della famiglia del font come specificato in pubspec.yaml
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
                         ),
-                      );
-                    },
-                    itemCount: _itemColors.length,
+                      ),
+                    ),
                   ),
                 ),
                 // Aggiungi il widget Navigation con il profilo

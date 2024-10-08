@@ -5,6 +5,7 @@ class ProfileModel {
   final String displayName;
   final String email;
   final String photoUrl;
+  final String jobTitle;
   int touches;
   int scrolls;
   List<String> trophies;
@@ -15,6 +16,7 @@ class ProfileModel {
     required this.displayName,
     required this.email,
     required this.photoUrl,
+    required this.jobTitle,
     this.touches = 0,
     this.scrolls = 0,
     this.trophies = const [],
@@ -27,6 +29,7 @@ class ProfileModel {
       displayName: data['displayName'] ?? '',
       email: data['email'] ?? '',
       photoUrl: data['photoUrl'] ?? '',
+      jobTitle: data['jobTitle'] ?? '',
       touches: data['touches'] ?? 0,
       scrolls: data['scrolls'] ?? 0,
       trophies: List<String>.from(data['trophies'] ?? []),
@@ -60,6 +63,7 @@ class ProfileModel {
       displayName: displayName ?? this.displayName,
       email: email ?? this.email,
       photoUrl: photoUrl ?? this.photoUrl,
+      jobTitle: jobTitle,
       touches: touches ?? this.touches,
       scrolls: scrolls ?? this.scrolls,
       trophies: trophies ?? this.trophies,
