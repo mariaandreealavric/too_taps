@@ -27,7 +27,6 @@ class ThemeController extends GetxController {
           end: Alignment.bottomCenter,
         ),
       );
-      _listTileColor.value = Colors.green;
     } else {
       _currentTheme.value = ThemeData.light();
       _boxDecoration.value = const BoxDecoration(

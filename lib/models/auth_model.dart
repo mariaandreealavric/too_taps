@@ -3,12 +3,14 @@ class AuthModel {
   final String email;
   final String displayName;
   final String photoUrl;
+  final String jobTitle;
 
   AuthModel({
     required this.uid,
     required this.email,
     required this.displayName,
     required this.photoUrl,
+    required this.jobTitle,
   });
 
   factory AuthModel.fromFirestore(Map<String, dynamic> data) {
@@ -17,6 +19,7 @@ class AuthModel {
       email: data['email'],
       displayName: data['displayName'] ?? '',
       photoUrl: data['photoUrl'] ?? '',
+      jobTitle: data['jobTitle'] ?? '',
     );
   }
 
@@ -26,6 +29,7 @@ class AuthModel {
       'email': email,
       'displayName': displayName,
       'photoUrl': photoUrl,
+      'jobTitle':  jobTitle,
     };
   }
 }

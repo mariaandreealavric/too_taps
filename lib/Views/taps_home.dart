@@ -119,92 +119,95 @@ class TapsHomePageState extends State<TapsHomePage> with SingleTickerProviderSta
           ],
         ),
 
-        body: Container(
-          decoration: themeController.boxDecoration, // Usa il GetX controller per la gestione del tema
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return Column(
-                children: [
-                  const SizedBox(height: 80), // Spazio per l'AppBar trasparente
-                  // Aggiunta dei segnaposto scrollabili
-                  SizedBox(
-                    height: 20,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 8, // 8 segnaposto
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                            onTap: () {
-                            setState(() {
-                              _selectedIndex = index; // Aggiorna l'indice selezionato
-                            });
-                          },
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 300),
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
-                            width: 60, // Dimensione del segnaposto
-                            height: 60, // Dimensione del segnaposto
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  index == _selectedIndex
-                                      ? _images[1] // Immagine attiva
-                                      : _images[0], // Immagine inattiva
-                                ),
-                                fit: BoxFit.contain,
+        body: Stack(
+          children: [
+            Positioned.fill(
+              child: Image.asset(
+                'assets/statue.png', // Percorso dell'immagine
+                fit: BoxFit.cover,
+              ),
+            ),
+            Column(
+              children: [
+                const SizedBox(height: 80), // Spazio per l'AppBar trasparente
+                // Aggiunta dei segnaposto scrollabili
+                SizedBox(
+                  height: 20,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 8, // 8 segnaposto
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                          onTap: () {
+                          setState(() {
+                            _selectedIndex = index; // Aggiorna l'indice selezionato
+                          });
+                        },
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
+                          width: 60, // Dimensione del segnaposto
+                          height: 60, // Dimensione del segnaposto
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                index == _selectedIndex
+                                    ? _images[1] // Immagine attiva
+                                    : _images[0], // Immagine inattiva
                               ),
-                              borderRadius: BorderRadius.circular(10),
+                              fit: BoxFit.contain,
                             ),
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
                   ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.bottomRight, // Fissa il contenuto in basso a destra
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0), // Aggiunge un po' di padding se necessario
-                        child: RichText(
-                          textAlign: TextAlign.right, // Allinea il testo a destra
-                          text: TextSpan(
-                            children: [
-                              const TextSpan(
-                                text: 'Taps', // Testo prima di andare a capo
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 80,
-                                  fontFamily: 'KeplerStd', // Nome della famiglia del font come specificato in pubspec.yaml
-                                  fontStyle: FontStyle.italic,
-                                  fontWeight: FontWeight.normal,
-                                ),
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomRight, // Fissa il contenuto in basso a destra
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0), // Aggiunge un po' di padding se necessario
+                      child: RichText(
+                        textAlign: TextAlign.right, // Allinea il testo a destra
+                        text: TextSpan(
+                          children: [
+                            const TextSpan(
+                              text: 'Taps', // Testo prima di andare a capo
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 80,
+                                fontFamily: 'KeplerStd', // Nome della famiglia del font come specificato in pubspec.yaml
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.normal,
                               ),
-                              TextSpan(
-                                text: '\n${profile.touches}', // A capo con il numero dei tocchi
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 80,
-                                  fontFamily: 'PlusJakartaSans', // Nome della famiglia del font come specificato in pubspec.yaml
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                            ),
+                            TextSpan(
+                              text: '\n${profile.touches}', // A capo con il numero dei tocchi
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 80,
+                                fontFamily: 'PlusJakartaSans', // Nome della famiglia del font come specificato in pubspec.yaml
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w400,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ),
-
-                  Container(
-                    width: constraints.maxWidth,
-                    color: Colors.transparent,
-                    child: Navigation(profile: profile), // Passa l'argomento profile
-                  ),
-                ],
-              );
-            },
-          ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Navigation(profile: profile), // Barra di navigazione fissa in basso
+                ),
+              ],
+            ),
+        ],
         ),
       ),
     );

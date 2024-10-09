@@ -116,8 +116,11 @@ class ScrollingPageState extends State<ScrollingPage> {
       child: Scaffold(
         body: Stack(
           children: [
-            Container(
-              decoration: themeController.boxDecoration,
+            Positioned.fill(
+              child: Image.asset(
+                'assets/space.png', // Percorso dell'immagine
+                fit: BoxFit.cover,
+              ),
             ),
             Column(
               children: [
@@ -172,7 +175,12 @@ class ScrollingPageState extends State<ScrollingPage> {
                   ),
                 ),
                 // Aggiungi il widget Navigation con il profilo
-                Navigation(profile: profile), // Passa il profilo al widget Navigation
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Navigation(profile: profile), // Barra di navigazione fissa in basso
+                ),
               ],
             ),
           ],

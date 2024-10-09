@@ -11,6 +11,7 @@ class MockAuthModel extends AuthModel {
     email: 'example@example.com',
     displayName: 'Example User',
     photoUrl: 'https://example.com/photo.jpg',
+    jobTitle: 'Technician'
   );
 }
 

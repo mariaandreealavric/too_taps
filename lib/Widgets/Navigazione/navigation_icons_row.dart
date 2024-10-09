@@ -24,15 +24,17 @@ class NavigationIconsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      clipBehavior: Clip.none, // Permette l'overflow
       children: [
         // Icone di navigazione
         SizedBox(
-          height: 70,
+          height: 60,
           width: double.infinity,
           child: Obx(
                 () => Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+
                 _buildNavItem(
                   inactiveImage: 'assets/sezione_tap.png',
                   activeImage: 'assets/sezione_tap_active.png',
@@ -69,26 +71,28 @@ class NavigationIconsRow extends StatelessWidget {
           animationController.forward(); // Avvia l'animazione senza tornare all'inizio
         }
       },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOutCubic, // Utilizza una curva più morbida
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOutCubic, // Utilizza una curva più morbida
-              transform: Matrix4.translationValues(
-                  0, navigationController.selectedIndex.value == index ? -10 : 0, 0),
+      child: TweenAnimationBuilder<double>(
+        tween: Tween<double>(
+          begin: 0,
+          end: navigationController.selectedIndex.value == index ? -10 : 0,
+        ),
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOutSine, // Utilizza una curva più morbida per un'animazione naturale
+        builder: (context, value, child) {
+          return Transform.translate(
+            offset: Offset(0, value),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOutSine, // Sincronizza la curva per una transizione più morbida
+              padding: const EdgeInsets.only(left: 30,right: 30),
               child: Image.asset(
                 navigationController.selectedIndex.value == index ? activeImage : inactiveImage,
-                width: 20.0,
-                height: 20.0,
+                width: 24.0,
+                height: 24.0,
               ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

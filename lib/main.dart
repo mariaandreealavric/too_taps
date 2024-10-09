@@ -6,7 +6,6 @@ import 'controllers/theme_controller.dart';
 import 'services/notification_service.dart';
 import 'widgets/navigazione/route_generator.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -46,6 +45,13 @@ class MyApp extends StatelessWidget {
       theme: themeController.currentTheme,
       initialRoute: '/',
       getPages: RouteGenerator.getPages,  // Utilizzo corretto di getPages da RouteGenerator
+      builder: (context, child) {
+        // Aggiungi uno sfondo a tutte le pagine
+        return Container(
+          decoration: themeController.boxDecoration,
+          child: child,
+        );
+      },
     );
   }
 }

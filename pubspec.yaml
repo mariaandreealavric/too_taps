@@ -48,7 +48,7 @@ flutter:
     - assets/statua_invalid.png
     - assets/statua_attiva.png
     - assets/dock_circle.png
-    - assets/dockbar.png
+    - assets/dockbarlong.png
     - assets/emoji.png
     - assets/icona_posizione.png
     - assets/pallino_notifiche.png
@@ -59,6 +59,8 @@ flutter:
     - assets/sezione_scroll_active.png
     - assets/sezione_tap.png
     - assets/sezione_tap_active.png
+    - assets/statue.png
+    - assets/space.png
 
   fonts:
     - family: PlusJakartaSans

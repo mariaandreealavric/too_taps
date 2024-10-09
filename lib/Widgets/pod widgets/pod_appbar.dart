@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:too_taps/Widgets/graphics/job_title_widget.dart';
+import 'package:too_taps/Widgets/graphics/profile_name_widget.dart';
+import 'package:too_taps/Widgets/graphics/red_circle_avatar_widget.dart';
 import '../../controllers/profile_controller.dart';
 import '../../models/profile_model.dart';
 
@@ -21,55 +24,48 @@ class CustomPodAppBar extends StatelessWidget {
           bottomRight: Radius.circular(30.0),
         ),
       ),
-      child: Row(
+      child: const Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Parte sinistra: CircleAvatar, nome utente e job title
+          // Parte sinistra: "Welcome in the Pod"
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Welcome in the Pod',
+              Text(
+                'Welcome in the',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 24,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'KeplerStd', // Assicurati che il font sia specificato in pubspec.yaml
                 ),
               ),
-              const SizedBox(height: 8),
               Text(
-                userProfile.displayName,
-                style: const TextStyle(
+                'Pod.',
+                style: TextStyle(
                   color: Colors.black,
-                  fontSize: 20,
+                  fontSize: 30,
                   fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                userProfile.jobTitle,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
-              const SizedBox(height: 8),
-              CircleAvatar(
-                radius: 23,
-                backgroundColor: Colors.red,
-                child: CircleAvatar(
-                  radius: 20,
-                  backgroundImage: NetworkImage(userProfile.photoUrl),
+                  fontFamily: 'KeplerStd', // Assicurati che il font sia specificato in pubspec.yaml
                 ),
               ),
             ],
           ),
-          // Parte destra: Espansione e allineamento
-          const Expanded(
-            child: Align(
-              alignment: Alignment.topRight,
-            ),
+          Spacer(),
+          // Parte destra: Nome utente, job title e CircleAvatar
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ProfileName(userName: 'Alberto Spina'),
+                  JobTitle(jobTitle: 'Technician'),
+                ],
+              ),
+              SizedBox(width: 16),
+             RedCircleAvatar(imageUrl: ''),
+            ],
           ),
         ],
       ),

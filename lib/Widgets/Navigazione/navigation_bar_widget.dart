@@ -12,14 +12,17 @@ class NavigationBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Ingrandisci la larghezza della dockbar del 50%
+    final double newWidth = width * 3.0;
+
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
-      left: circlePosition - (width / 2),
+      left: circlePosition - (newWidth / 2),
       bottom: 0,
       child: Image.asset(
-        'assets/dockbar.png',
-        width: width,
+        'assets/dockbarlong.png',
+        width: newWidth,
         fit: BoxFit.fitWidth,
       ),
     );

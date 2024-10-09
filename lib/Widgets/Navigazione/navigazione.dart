@@ -76,9 +76,10 @@ class _NavigationState extends State<Navigation>
     double circlePosition = width * positions[navigationController.selectedIndex.value];
 
     return Obx(() => SizedBox(
-      height: 70, // Altezza totale del widget di navigazione
+      height: 60, // Altezza totale del widget di navigazione
       child: Stack(
         alignment: Alignment.bottomCenter,
+        clipBehavior: Clip.none, // Permette l'overflow
         children: [
           // Dockbar animata
           NavigationBarWidget(

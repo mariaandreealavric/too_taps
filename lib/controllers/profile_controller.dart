@@ -7,6 +7,7 @@ final mockProfileData = {
   'displayName': 'Mock User',
   'email': 'mockuser@example.com',
   'photoUrl': 'https://example.com/default-photo.jpg',
+  'jobTitle': 'Thecnician',
   'touches': 0,
   'scrolls': 0,
   'trophies': [],
