@@ -4,7 +4,7 @@ import '../../controllers/Contatori/navigation_controller.dart';
 import '../../controllers/Contatori/touch_counter.dart';
 
 class NavigationIconsRow extends StatelessWidget {
-  final TouchController touchController;
+  final TouchCounter touchController;
   final List<Color> circleColors;
   final AnimationController animationController;
   final Animation<double> dockCircleAnimation;

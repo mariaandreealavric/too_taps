@@ -24,11 +24,11 @@ class CustomPodAppBar extends StatelessWidget {
           bottomRight: Radius.circular(30.0),
         ),
       ),
-      child: const Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Parte sinistra: "Welcome in the Pod"
-          Column(
+          const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -51,7 +51,7 @@ class CustomPodAppBar extends StatelessWidget {
               ),
             ],
           ),
-          Spacer(),
+          const Spacer(),
           // Parte destra: Nome utente, job title e CircleAvatar
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,12 +59,12 @@ class CustomPodAppBar extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ProfileName(userName: 'Alberto Spina'),
-                  JobTitle(jobTitle: 'Technician'),
+                  ProfileName(userName: userProfile.displayName), // Passa il nome del profilo
+                  JobTitle(jobTitle: userProfile.jobTitle), // Passa il job title del profilo
                 ],
               ),
-              SizedBox(width: 16),
-             RedCircleAvatar(imageUrl: ''),
+              const SizedBox(width: 16),
+              RedCircleAvatar(imageUrl: userProfile.photoUrl), // Passa l'URL dell'immagine
             ],
           ),
         ],

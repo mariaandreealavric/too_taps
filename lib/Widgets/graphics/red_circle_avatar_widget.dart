@@ -19,7 +19,7 @@ class RedCircleAvatar extends StatelessWidget {
       backgroundColor: Colors.red,
       child: CircleAvatar(
         radius: innerRadius,
-        backgroundImage: NetworkImage(imageUrl),
+        backgroundImage: AssetImage(imageUrl),
       ),
     );
   }

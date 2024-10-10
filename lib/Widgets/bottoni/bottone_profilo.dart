@@ -13,7 +13,7 @@ class ProfileButton extends StatefulWidget {
 
 class _ProfileButtonState extends State<ProfileButton> {
   void _incrementTouchCount() {
-    final touchController = Get.find<TouchController>(); // Usa GetX per ottenere il controller
+    final touchController = Get.find<TouchCounter>(); // Usa GetX per ottenere il controller
     touchController.incrementTouches(); // Incrementa il conteggio dei tocchi
   }
 

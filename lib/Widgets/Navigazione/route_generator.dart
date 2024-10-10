@@ -9,33 +9,38 @@ import '../../Views/profilo.dart';
 import '../../Views/scrolling.dart';
 import '../../Views/taps_home.dart';
 
-
 class RouteGenerator {
   // Lista delle pagine definite come static
   static final List<GetPage<dynamic>> getPages = [
     GetPage(
       name: '/',
       page: () => const HomePage(),
+      transition: Transition.fadeIn, // Transizione fluida tra le pagine
     ),
     GetPage(
       name: '/taps_home',
       page: () => const TapsHomePage(userID: 'default_user_id'),
+      transition: Transition.fadeIn, // Transizione fluida tra le pagine
     ),
     GetPage(
       name: '/scrolling',
       page: () => const ScrollingPage(userID: 'default_user_id'),
+      transition: Transition.fadeIn, // Transizione fluida tra le pagine
     ),
     GetPage(
       name: '/pod',
       page: () => const PodPage(),
+      transition: Transition.fadeIn, // Transizione fluida tra le pagine
     ),
     GetPage(
       name: '/profilo',
       page: () => const ProfilePage(userID: 'default_user_id'),
+      transition: Transition.fadeIn, // Transizione fluida tra le pagine
     ),
     GetPage(
       name: '/challenge',
       page: () => const ChallengePage(userID: 'default_user_id'),
+      transition: Transition.fadeIn, // Transizione fluida tra le pagine
     ),
   ];
 

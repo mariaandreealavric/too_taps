@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // Importa GetX
-// import 'package:cloud_firestore/cloud_firestore.dart'; // Commenta l'importazione di Firestore
 import 'package:logger/logger.dart';
 import '../controllers/Contatori/scroll_counter.dart';
+import '../controllers/Contatori/touch_counter.dart';
 import '../controllers/theme_controller.dart';
 import '../widgets/Navigazione/navigazione.dart'; // Importa Navigation
 import '../widgets/title_widget.dart'; // Importa TitleWidget
@@ -52,19 +52,7 @@ class ScrollingPageState extends State<ScrollingPage> {
   void _updateScrollPosition() {
     double currentScrollPosition = _scrollController.position.pixels;
     if (currentScrollPosition > _lastScrollPosition) {
-      double distance = (currentScrollPosition - _lastScrollPosition) * 0.1 / 100.0;
-      // Utilizza il metodo GetX per incrementare i scroll
-      Get.find<ScrollCounter>().incrementScrolls();
-
-      // Aggiorna anche i dati nel database Firestore (commentato per ora)
-      // try {
-      //   await FirebaseFirestore.instance.collection('users').doc(widget.userID).update({
-      //     'scrolls': FieldValue.increment(distance.toInt()),
-      //   });
-      //   _logger.i('Dati di scorrimento aggiornati con successo.');
-      // } catch (error) {
-      //   _logger.e('Errore durante l\'aggiornamento dei dati di scorrimento: $error');
-      // }
+      Get.find<ScrollCounter>().incrementScrolls(); // Incrementa scroll tramite GetX
     }
     _lastScrollPosition = currentScrollPosition;
   }
@@ -100,6 +88,7 @@ class ScrollingPageState extends State<ScrollingPage> {
     final themeController = Get.find<ThemeController>(); // Usa GetX per il ThemeController
     final profileController = Get.find<ProfileController>(); // Usa GetX per il ProfileController
     final scrollCounter = Get.find<ScrollCounter>(); // Usa GetX per il ScrollCounter
+    final touchCounter = Get.find<TouchCounter>(); // Usa GetX per il TouchCounter
 
     // Controlla se il profilo è caricato
     if (profileController.profile.value == null) {
@@ -110,80 +99,91 @@ class ScrollingPageState extends State<ScrollingPage> {
 
     return GestureDetector(
       onTap: () {
-        profileController.incrementTouches();
-        profileController.incrementScrolls();
+        touchCounter.incrementTouches(); // Incrementa tap tramite GetX
       },
-      child: Scaffold(
-        body: Stack(
-          children: [
-            Positioned.fill(
-              child: Image.asset(
-                'assets/space.png', // Percorso dell'immagine
-                fit: BoxFit.cover,
-              ),
-            ),
-            Column(
-              children: [
-                AppBar(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  centerTitle: true,  // Centro il titolo
-                  title: const Text( // Usa il parametro "title" dell'AppBar
-                    'Taps', // Scritta in piccolo "Taps"
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontFamily: 'KeplerStd', // Nome della famiglia del font come specificato in pubspec.yaml
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
+      child: NotificationListener<ScrollNotification>(
+        onNotification: (scrollNotification) {
+          if (scrollNotification is ScrollStartNotification ||
+              scrollNotification is ScrollUpdateNotification ||
+              scrollNotification is ScrollEndNotification) {
+            scrollCounter.incrementScrolls();
+          }
+          return true;
+        },
+        child: Scaffold(
+          backgroundColor: Colors.black,
+          body: Stack(
+            children: [
+              Positioned.fill(
+                child: Image.asset(
+                  'assets/space.png', // Percorso dell'immagine
+                  fit: BoxFit.cover,
                 ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.bottomRight, // Fissa il contenuto in basso a destra
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0), // Aggiunge un po' di padding se necessario
-                      child: RichText(
-                        textAlign: TextAlign.right, // Allinea il testo a destra
-                        text: TextSpan(
-                          children: [
-                            const TextSpan(
-                              text: 'Scrolling', // Testo prima di andare a capo
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 80,
-                                fontFamily: 'KeplerStd', // Nome della famiglia del font come specificato in pubspec.yaml
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                            TextSpan(
-                              text: '\n${scrollCounter.scrolls}', // A capo con il numero dei tocchi
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 60,
-                                fontFamily: 'PlusJakartaSans', // Nome della famiglia del font come specificato in pubspec.yaml
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
+              ),
+              Column(
+                children: [
+                  AppBar(
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    centerTitle: true, // Centro il titolo
+                    title: const Text(
+                      'Scrolling', // Scritta "Scrolling"
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontFamily: 'KeplerStd',
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.normal,
                       ),
                     ),
                   ),
-                ),
-                // Aggiungi il widget Navigation con il profilo
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Navigation(profile: profile), // Barra di navigazione fissa in basso
-                ),
-              ],
-            ),
-          ],
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.bottomRight, // Fissa il contenuto in basso a destra
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0), // Aggiunge un po' di padding se necessario
+                        child: Obx(() {
+                          return RichText(
+                            textAlign: TextAlign.right, // Allinea il testo a destra
+                            text: TextSpan(
+                              children: [
+                                const TextSpan(
+                                  text: 'Scrolling', // Testo prima di andare a capo
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 80,
+                                    fontFamily: 'KeplerStd',
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: '\n${scrollCounter.scrolls}', // A capo con il numero degli scroll
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 60,
+                                    fontFamily: 'PlusJakartaSans',
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Navigation(profile: profile), // Barra di navigazione fissa in basso
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

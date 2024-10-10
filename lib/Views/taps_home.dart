@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
 import 'package:get/get.dart';
 
 import '../Widgets/Navigazione/navigazione.dart';
+import '../controllers/Contatori/scroll_counter.dart';
+import '../controllers/Contatori/touch_counter.dart';
 import '../controllers/profile_controller.dart';
-import '../controllers/theme_controller.dart'; // Import the GetX ThemeController
+import '../controllers/theme_controller.dart';
 
 class TapsHomePage extends StatefulWidget {
   final String userID;
@@ -18,7 +19,7 @@ class TapsHomePage extends StatefulWidget {
 
 class TapsHomePageState extends State<TapsHomePage> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  bool _isWelcomeMessageShown = false;
+ // bool _isWelcomeMessageShown = false;
   int _selectedIndex = 0; // Indice del segnaposto selezionato
   final Logger _logger = Logger(); // Instance of Logger
 
@@ -55,13 +56,6 @@ class TapsHomePageState extends State<TapsHomePage> with SingleTickerProviderSta
     });
   }
 
- // Future<void> _signOut() async {
-  //  await FirebaseAuth.instance.signOut();
-  //  if (mounted) {
-  //    Get.offAllNamed('/'); // Use GetX for navigation after sign out
- //   }
- // }
-
   @override
   Widget build(BuildContext context) {
     _logger.i('TapsHomePage: Building with userID ${widget.userID}');
@@ -69,145 +63,167 @@ class TapsHomePageState extends State<TapsHomePage> with SingleTickerProviderSta
     // Use GetX for ThemeController
     final themeController = Get.find<ThemeController>();
     final profileController = Get.find<ProfileController>(); // GetX ProfileController
+    final scrollCounter = Get.find<ScrollCounter>(); // Usa GetX per il ScrollCounter
+    final touchCounter = Get.find<TouchCounter>(); // Usa GetX per il TouchCounter
 
     // Controlla lo stato di caricamento del profilo
     if (profileController.isLoading.value) {
       return const Center(child: CircularProgressIndicator());
     }
 
-    final profile = profileController.profile.value; // Usa .value per accedere al ProfileModel
+    final profile = profileController.profile.value;
 
     // Se il profilo non è caricato, mostra un indicatore di caricamento
     if (profile == null) {
       return const Center(child: CircularProgressIndicator());
     }
 
-    if (!_isWelcomeMessageShown) {
+    /*if (!_isWelcomeMessageShown) {
       _isWelcomeMessageShown = true;
       _showWelcomeSnackbar(profile.displayName); // Accedi a displayName tramite profile
-    }
+    }*/
 
     return GestureDetector(
       onTap: () {
-        if (mounted) {
-          profileController.incrementTouches(); // Usa il metodo del controller GetX
-          profileController.incrementScrolls();   // Un altro metodo del controller GetX
-        }
+        touchCounter.incrementTouches(); // Incrementa il contatore dei tap
       },
-      child: Scaffold(
-        extendBodyBehindAppBar: true,  // Estende il corpo dietro l'AppBar per renderla trasparente
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          elevation: 0,
-          centerTitle: true,  // Centro il titolo
-          title: const Text( // Usa il parametro "title" dell'AppBar
-            'Taps', // Scritta in piccolo "Taps"
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.white,
-              fontFamily: 'KeplerStd', // Nome della famiglia del font come specificato in pubspec.yaml
-              fontStyle: FontStyle.italic,
-              fontWeight: FontWeight.normal,
-            ),
-          ),
-          actions: const <Widget>[
-            IconButton(
-              icon: Icon(Icons.logout),
-              onPressed: null,
-            ),
-          ],
-        ),
-
-        body: Stack(
-          children: [
-            Positioned.fill(
-              child: Image.asset(
-                'assets/statue.png', // Percorso dell'immagine
-                fit: BoxFit.cover,
+      child: NotificationListener<ScrollNotification>(
+        onNotification: (scrollNotification) {
+          if (scrollNotification is ScrollStartNotification ||
+              scrollNotification is ScrollUpdateNotification ||
+              scrollNotification is ScrollEndNotification) {
+            scrollCounter.incrementScrolls();
+          }
+          return true;
+        },
+        child: Scaffold(
+          backgroundColor: Colors.black,
+          extendBodyBehindAppBar: true, // Estende il corpo dietro l'AppBar per renderla trasparente
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            elevation: 0,
+            centerTitle: true, // Centro il titolo
+            title: const Text(
+              'Taps', // Scritta in piccolo "Taps"
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+                fontFamily: 'KeplerStd',
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.normal,
               ),
             ),
-            Column(
-              children: [
-                const SizedBox(height: 80), // Spazio per l'AppBar trasparente
-                // Aggiunta dei segnaposto scrollabili
-                SizedBox(
-                  height: 20,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 8, // 8 segnaposto
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                          onTap: () {
-                          setState(() {
-                            _selectedIndex = index; // Aggiorna l'indice selezionato
-                          });
-                        },
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          margin: const EdgeInsets.symmetric(horizontal: 10),
-                          width: 60, // Dimensione del segnaposto
-                          height: 60, // Dimensione del segnaposto
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                index == _selectedIndex
-                                    ? _images[1] // Immagine attiva
-                                    : _images[0], // Immagine inattiva
-                              ),
-                              fit: BoxFit.contain,
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      );
-                    },
+            actions: const <Widget>[
+              IconButton(
+                icon: Icon(Icons.logout),
+                onPressed: null,
+              ),
+            ],
+          ),
+          body: Stack(
+            children: [
+              Positioned.fill(
+                child: GestureDetector(
+                  onTap: () {
+                    touchCounter.incrementTouches(); // Incrementa il contatore dei tap
+                  },
+                  child: Image.asset(
+                    'assets/statue.png', // Percorso dell'immagine
+                    fit: BoxFit.cover,
                   ),
                 ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.bottomRight, // Fissa il contenuto in basso a destra
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0), // Aggiunge un po' di padding se necessario
-                      child: RichText(
-                        textAlign: TextAlign.right, // Allinea il testo a destra
-                        text: TextSpan(
-                          children: [
-                            const TextSpan(
-                              text: 'Taps', // Testo prima di andare a capo
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 80,
-                                fontFamily: 'KeplerStd', // Nome della famiglia del font come specificato in pubspec.yaml
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.normal,
+              ),
+              Column(
+                children: [
+                  const SizedBox(height: 80), // Spazio per l'AppBar trasparente
+                  // Aggiunta dei segnaposto scrollabili
+                  GestureDetector(
+                    onTap: () {
+                      touchCounter.incrementTouches(); // Incrementa il contatore dei tap
+                    },
+                    child: SizedBox(
+                      height: 20,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 8, // 8 segnaposto
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _selectedIndex = index; // Aggiorna l'indice selezionato
+                              });
+                              touchCounter.incrementTouches(); // Incrementa il contatore dei tap
+                            },
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              margin: const EdgeInsets.symmetric(horizontal: 10),
+                              width: 60, // Dimensione del segnaposto
+                              height: 60, // Dimensione del segnaposto
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    index == _selectedIndex
+                                        ? _images[1] // Immagine attiva
+                                        : _images[0], // Immagine inattiva
+                                  ),
+                                  fit: BoxFit.contain,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            TextSpan(
-                              text: '\n${profile.touches}', // A capo con il numero dei tocchi
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 80,
-                                fontFamily: 'PlusJakartaSans', // Nome della famiglia del font come specificato in pubspec.yaml
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
+                          );
+                        },
                       ),
                     ),
                   ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Navigation(profile: profile), // Barra di navigazione fissa in basso
-                ),
-              ],
-            ),
-        ],
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.bottomRight, // Fissa il contenuto in basso a destra
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0), // Aggiunge un po' di padding se necessario
+                        child: Obx(() {
+                          return RichText(
+                            textAlign: TextAlign.right, // Allinea il testo a destra
+                            text: TextSpan(
+                              children: [
+                                const TextSpan(
+                                  text: 'Taps', // Testo prima di andare a capo
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 80,
+                                    fontFamily: 'KeplerStd',
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: '\n${touchCounter.touches.value}', // A capo con il numero dei tocchi aggiornato dinamicamente
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 80,
+                                    fontFamily: 'PlusJakartaSans',
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Navigation(profile: profile), // Barra di navigazione fissa in basso
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

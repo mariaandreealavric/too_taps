@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:too_taps/Widgets/bottoni/red_follow_botton.dart';
 import 'package:too_taps/Widgets/graphics/profile_name_widget.dart';
-
 import '../graphics/job_title_widget.dart';
 import '../graphics/red_circle_avatar_widget.dart';
+import '../../models/profile_model.dart';
 
 class SuggestedProfileWidget extends StatelessWidget {
-  final String userName;
-  final String jobTitle;
-  final String profileImageUrl;
-  final String postImageUrl;
+  final ProfileModel profile;
+
 
   const SuggestedProfileWidget({
     Key? key,
-    required this.userName,
-    required this.jobTitle,
-    required this.profileImageUrl,
-    required this.postImageUrl,
+    required this.profile,
   }) : super(key: key);
 
   @override
@@ -36,13 +31,13 @@ class SuggestedProfileWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Parte sinistra: CircleAvatar, nome utente e job title
-                const RedCircleAvatar(imageUrl: ''),
+                RedCircleAvatar(imageUrl: profile.photoUrl),
                 const SizedBox(width: 10),
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ProfileName(userName: 'Monica Neri'),
-                    JobTitle(jobTitle: 'Technician'),
+                    ProfileName(userName: profile.displayName),
+                    JobTitle(jobTitle: profile.jobTitle),
                   ],
                 ),
                 Spacer(),
@@ -58,8 +53,8 @@ class SuggestedProfileWidget extends StatelessWidget {
                 bottomLeft: Radius.circular(30.0),
                 bottomRight: Radius.circular(30.0),
               ),
-              child: Image.network(
-                postImageUrl,
+              child: Image.asset(
+                profile.postImage,
                 width: double.infinity,
                 height: double.infinity,
                 fit: BoxFit.cover,

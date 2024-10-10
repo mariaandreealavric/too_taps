@@ -61,6 +61,17 @@ flutter:
     - assets/sezione_tap_active.png
     - assets/statue.png
     - assets/space.png
+    # mock
+    - assets/mock/profilo1.jpg
+    - assets/mock/profilo2.jpg
+    - assets/mock/profilo3.jpg
+    - assets/mock/profilo4.jpg
+    - assets/mock/profilo5.jpg
+    - assets/mock/profilo6.jpg
+    - assets/mock/profilo7.jpg
+    - assets/mock/sfondo1.jpeg
+    - assets/mock/sfondo2.jpg
+    - assets/mock/sfondo3.jpg
 
   fonts:
     - family: PlusJakartaSans

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'controllers/Contatori/scroll_counter.dart';
+import 'controllers/Contatori/touch_counter.dart';
 import 'controllers/profile_controller.dart';
 import 'controllers/theme_controller.dart';
 import 'services/notification_service.dart';
@@ -23,6 +24,11 @@ void main() async {
   if (userProfile != null) {
     // Inizializza ScrollCounter con il profilo utente
     Get.put(ScrollCounter(userProfile)); // Passa l'istanza di ProfileModel
+  }
+
+  if (userProfile != null) {
+    // Inizializza ScrollCounter con il profilo utente
+    Get.put(TouchCounter(userProfile)); // Passa l'istanza di ProfileModel
   }
 
   // Inizializza il ThemeController

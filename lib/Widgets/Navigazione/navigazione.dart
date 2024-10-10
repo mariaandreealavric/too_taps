@@ -69,7 +69,7 @@ class _NavigationState extends State<Navigation>
 
   @override
   Widget build(BuildContext context) {
-    final touchController = Get.put(TouchController(widget.profile));
+    final touchController = Get.put(TouchCounter(widget.profile));
     double width = MediaQuery.of(context).size.width;
 
     // Calcola la posizione orizzontale del dock circle
