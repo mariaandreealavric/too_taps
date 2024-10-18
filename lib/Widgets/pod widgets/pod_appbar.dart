@@ -64,7 +64,12 @@ class CustomPodAppBar extends StatelessWidget {
                 ],
               ),
               const SizedBox(width: 16),
-              RedCircleAvatar(imageUrl: userProfile.photoUrl), // Passa l'URL dell'immagine
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed('/profilo'); // Naviga alla pagina del profilo
+                },
+                child: RedCircleAvatar(imageUrl: userProfile.photoUrl), // Passa l'URL dell'immagine
+              ),
             ],
           ),
         ],
