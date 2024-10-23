@@ -48,9 +48,9 @@ class SettingsPage extends StatelessWidget {
               },
             ),
             const Divider(),
-            ListTile(
-              leading: const Icon(Icons.language),
-              title: const Text('Language', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+             ListTile(
+              leading: Icon(Icons.language),
+              title: Text('Language', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ),
             DropdownButton<String>(
               value: settingsController.selectedLanguage.value,

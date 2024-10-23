@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../controllers/lenguage_controller.dart';
 
 class LanguageMenu extends StatelessWidget {
@@ -17,8 +16,8 @@ class LanguageMenu extends StatelessWidget {
             onTap: () {
               // Cambia la lingua
               _languageController.changeLanguage(
-                language['code']!,
-                language['country']!,
+                language['code']!, // Verifica che il codice sia corretto
+                language['country']!, // Verifica che il codice paese sia corretto
               );
 
               // Mostra una Snackbar per confermare il cambiamento
@@ -33,7 +32,7 @@ class LanguageMenu extends StatelessWidget {
               language['name']!,
               style: const TextStyle(
                 fontWeight: FontWeight.normal,
-                color: Colors.blue, // Colore del testo delle lingue
+                color: Colors.white, // Colore del testo delle lingue
                 fontSize: 14,
               ),
             ),

@@ -25,7 +25,7 @@ class SignUpPageState extends State<SignUpPage> {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(30.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -34,14 +34,14 @@ class SignUpPageState extends State<SignUpPage> {
               TextFormField(
                 controller: _emailController,
                 style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Email',
-                  labelStyle: const TextStyle(color: Colors.grey),
+                  labelStyle: TextStyle(color: Colors.grey),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.grey),
+                    borderSide: BorderSide(color: Colors.grey),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.blue),
+                    borderSide: BorderSide(color: Colors.blue),
                   ),
                 ),
                 // validator: (value) {
@@ -56,14 +56,14 @@ class SignUpPageState extends State<SignUpPage> {
                 controller: _passwordController,
                 obscureText: true,
                 style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Password',
-                  labelStyle: const TextStyle(color: Colors.grey),
+                  labelStyle: TextStyle(color: Colors.grey),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.grey),
+                    borderSide: BorderSide(color: Colors.grey),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.blue),
+                    borderSide: BorderSide(color: Colors.blue),
                   ),
                 ),
                 // validator: (value) {

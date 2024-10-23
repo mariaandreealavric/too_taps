@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../Views/challenge.dart';
 import '../../Views/home_page.dart';
+import '../../Views/login e signup/welcome_page.dart';
 import '../../Views/pod.dart';
 import '../../Views/profilo.dart';
 import '../../Views/scrolling.dart';
@@ -15,6 +16,11 @@ class RouteGenerator {
     GetPage(
       name: '/',
       page: () => const HomePage(),
+      transition: Transition.fadeIn, // Transizione fluida tra le pagine
+    ),
+    GetPage(
+      name: '/welcome',
+      page: () => WelcomePage(),
       transition: Transition.fadeIn, // Transizione fluida tra le pagine
     ),
     GetPage(

@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: GestureDetector(
         onTap: () {
-          Get.toNamed('/taps_home', arguments: 'some_user_id');
+          Get.toNamed('/welcome');
         },
         child: Container(
           decoration: themeController.boxDecoration,

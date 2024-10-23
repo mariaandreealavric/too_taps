@@ -4,6 +4,7 @@ import 'package:get/get.dart'; // Importa GetX
 import 'package:image_picker/image_picker.dart';
 
 import '../../services/auth_service.dart';
+import '../taps_home.dart';
 
 class SignUpNamePage extends StatefulWidget {
   final String email;
@@ -86,9 +87,9 @@ class SignUpNamePageState extends State<SignUpNamePage> {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(30.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             GestureDetector(
               onTap: _pickImage,
@@ -99,7 +100,7 @@ class SignUpNamePageState extends State<SignUpNamePage> {
                 child: _image == null
                     ? const Icon(
                   Icons.add_a_photo,
-                  size: 50,
+                  size: 30,
                   color: Colors.white,
                 )
                     : null,
@@ -109,14 +110,14 @@ class SignUpNamePageState extends State<SignUpNamePage> {
             TextFormField(
               controller: _nameController,
               style: const TextStyle(color: Colors.white),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Nome',
-                labelStyle: const TextStyle(color: Colors.grey),
+                labelStyle: TextStyle(color: Colors.grey),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.grey),
+                  borderSide: BorderSide(color: Colors.grey),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.blue),
+                  borderSide: BorderSide(color: Colors.blue),
                 ),
               ),
             ),
@@ -124,7 +125,10 @@ class SignUpNamePageState extends State<SignUpNamePage> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: _isSigningUp ? null : _signUp,
+                onPressed: //_isSigningUp ? null : _signUp,
+                    () {
+                  Get.to(() => const TapsHomePage(userID: ''),);
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   padding: const EdgeInsets.symmetric(vertical: 15),

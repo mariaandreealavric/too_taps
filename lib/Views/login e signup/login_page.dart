@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../services/auth_service.dart'; // Importa GetX
+import '../../services/auth_service.dart';
+import '../taps_home.dart'; // Importa GetX
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -77,7 +78,7 @@ class LoginPageState extends State<LoginPage> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(30.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -86,14 +87,14 @@ class LoginPageState extends State<LoginPage> {
               TextFormField(
                 controller: emailController,
                 style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Email',
-                  labelStyle: const TextStyle(color: Colors.grey),
+                  labelStyle: TextStyle(color: Colors.grey),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.grey),
+                    borderSide: BorderSide(color: Colors.grey),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.blue),
+                    borderSide: BorderSide(color: Colors.blue),
                   ),
                 ),
                 // validator: validateEmail,
@@ -102,14 +103,14 @@ class LoginPageState extends State<LoginPage> {
               TextFormField(
                 controller: passwordController,
                 style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Password',
-                  labelStyle: const TextStyle(color: Colors.grey),
+                  labelStyle: TextStyle(color: Colors.grey),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.grey),
+                    borderSide: BorderSide(color: Colors.grey),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.blue),
+                    borderSide: BorderSide(color: Colors.blue),
                   ),
                 ),
                 obscureText: true,
@@ -119,7 +120,10 @@ class LoginPageState extends State<LoginPage> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: login,
+                  onPressed: //login,
+                      () {
+                    Get.to(() => const TapsHomePage(userID: ''),);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     padding: const EdgeInsets.symmetric(vertical: 15),

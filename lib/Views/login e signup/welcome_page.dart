@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:too_taps/Views/login%20e%20signup/signup_name.dart';
 import 'package:too_taps/Views/login%20e%20signup/signup_page.dart';
 import 'package:too_taps/controllers/theme_controller.dart';
 
 import '../../Widgets/lenguageMenu_widget.dart';
+import '../../generated/l10n.dart';
 import 'login_page.dart';
 
 class WelcomePage extends StatelessWidget {
+  const WelcomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final themeController = Get.find<ThemeController>();
@@ -41,7 +43,7 @@ class WelcomePage extends StatelessWidget {
 
                 // Logo al centro
                 Image.asset(
-                  'assets/main_logo.png', // Assicurati che il percorso del logo sia corretto
+                  'assets/logo.png', // Assicurati che il percorso del logo sia corretto
                   height: 120,
                 ),
 
@@ -49,7 +51,7 @@ class WelcomePage extends StatelessWidget {
 
                 // Testo di benvenuto
                 Text(
-                  'welcome_to_tootaps'.tr,
+                  S.of(context).welcome, // Chiave per "welcome"
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 28,
@@ -63,7 +65,7 @@ class WelcomePage extends StatelessWidget {
 
                 // Testo informativo
                 Text(
-                  'sign_in_or_create_account'.tr,
+                  S.of(context).sign_in_or_create_account, // Chiave per "sign_in_or_create_account"
                   style: const TextStyle(
                     fontSize: 16,
                     color: Colors.white,
@@ -92,7 +94,7 @@ class WelcomePage extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          'log_in'.tr,
+                          S.of(context).log_in, // Chiave per "log_in"
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -119,7 +121,7 @@ class WelcomePage extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          'create_new_account'.tr,
+                          S.of(context).create_new_account, // Chiave per "create_new_account"
                           style: const TextStyle(
                             color: Colors.blueAccent,
                             fontSize: 18,
