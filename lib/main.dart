@@ -1,26 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:too_taps/services/translation_service.dart';
-import 'Views/Settings/localization/messages.dart';
-import 'Views/Settings/permission_handler.dart';
 import 'controllers/Contatori/scroll_counter.dart';
 import 'controllers/Contatori/touch_counter.dart';
-import 'controllers/lenguage_controller.dart';
+import 'controllers/language_controller.dart';
 import 'controllers/profile_controller.dart';
 import 'controllers/theme_controller.dart';
 import 'generated/l10n.dart';
 import 'services/notification_service.dart';
 import 'widgets/navigazione/route_generator.dart';
 
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-
-  // Carica le traduzioni
-  Map<String, Map<String, String>> translations = await TranslationService.loadTranslations();
 
   final notificationService = NotificationService();
   await notificationService.initialize();
@@ -47,33 +40,31 @@ void main() async {
   Get.put(ThemeController());
   Get.put(LanguageController());
 
-
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  static const platform = MethodChannel('com.yourapp/native_events');
+
   @override
   Widget build(BuildContext context) {
     final themeController = Get.find<ThemeController>();
+    print('Current locale: ${Get.locale}'); // Log per verifica
+    // Inizializza il metodo per ascoltare gli eventi nativi
+    _initializeMethodChannel();
 
     return GetMaterialApp(
       title: 'TOO-Taps',
+      locale: Get.locale ?? Locale('en', 'US'),
       fallbackLocale: const Locale('en', 'US'),
-      translations: Messages(), // Imposta le traduzioni
-      locale: Get.deviceLocale, // Imposta la lingua predefinita del dispositivo
-      supportedLocales: const [
-        Locale('en', 'US'), // Inglese (Stati Uniti)
-        Locale('it', 'IT'), // Italiano (Italia)
-        // Aggiungi altre lingue se necessario
-      ],
+      supportedLocales: S.delegate.supportedLocales, // Lingue supportate
       localizationsDelegates: const [
-        S.delegate,
-        GlobalMaterialLocalizations.delegate, // Supporto per localizzazioni Material
-        GlobalWidgetsLocalizations.delegate,  // Supporto per localizzazioni dei widget generici
-        GlobalCupertinoLocalizations.delegate, // Supporto per localizzazioni dei widget Cupertino
-        // Aggiungi il tuo delegato di traduzione se stai usando intl o GetX
+        S.delegate, // Classe generata per le traduzioni
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
       theme: themeController.currentTheme,
       initialRoute: '/',
@@ -86,5 +77,34 @@ class MyApp extends StatelessWidget {
         );
       },
     );
+  }
+
+  void _initializeMethodChannel() {
+    platform.setMethodCallHandler((call) async {
+      switch (call.method) {
+        case 'onTouchEvent':
+          _handleTouchEvent();
+          break;
+        case 'onScrollEvent':
+          _handleScrollEvent();
+          break;
+        default:
+          throw MissingPluginException('Not implemented: ${call.method}');
+      }
+    });
+  }
+
+  void _handleTouchEvent() {
+    // Logica per gestire l'evento di tocco
+    print('Touch event detected');
+    // Puoi chiamare dei metodi GetX o aggiornare i contatori come desideri
+    Get.find<TouchCounter>().incrementTouches();
+  }
+
+  void _handleScrollEvent() {
+    // Logica per gestire l'evento di scroll
+    print('Scroll event detected');
+    // Puoi chiamare dei metodi GetX o aggiornare i contatori come desideri
+    Get.find<ScrollCounter>().incrementScrolls();
   }
 }

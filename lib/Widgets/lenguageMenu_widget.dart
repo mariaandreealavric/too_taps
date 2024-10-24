@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/lenguage_controller.dart';
+import 'package:too_taps/generated/l10n.dart'; // Importa la classe S generata da intl
+import '../controllers/language_controller.dart';
 
 class LanguageMenu extends StatelessWidget {
   final LanguageController _languageController = Get.put(LanguageController());
+
+  // Lista semplificata delle lingue supportate
+  final List<Map<String, String>> languages = [
+    {'code': 'en', 'country': 'US', 'name': 'English'},
+    {'code': 'it', 'country': 'IT', 'name': 'Italiano'},
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -12,28 +19,26 @@ class LanguageMenu extends StatelessWidget {
       children: _languageController.getSupportedLanguages().map((language) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: GestureDetector(
+          child: InkWell(
             onTap: () {
-              // Cambia la lingua
-              _languageController.changeLanguage(
-                language['code']!, // Verifica che il codice sia corretto
-                language['country']!, // Verifica che il codice paese sia corretto
-              );
-
-              // Mostra una Snackbar per confermare il cambiamento
+              print('Tapped on: ${language['name']}');
+              _languageController.changeLanguage(language['code']!, language['country']!);
               Get.snackbar(
-                'success'.tr, // Traduzione della parola "Successo"
-                'language_changed'.tr, // Traduzione del messaggio "Lingua cambiata"
+                S.of(context).success,
+                S.of(context).language_changed,
                 snackPosition: SnackPosition.BOTTOM,
                 duration: const Duration(seconds: 2),
               );
             },
-            child: Text(
-              language['name']!,
-              style: const TextStyle(
-                fontWeight: FontWeight.normal,
-                color: Colors.white, // Colore del testo delle lingue
-                fontSize: 14,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                language['name']!,
+                style: const TextStyle(
+                  fontWeight: FontWeight.normal,
+                  color: Colors.white,
+                  fontSize: 14,
+                ),
               ),
             ),
           ),
