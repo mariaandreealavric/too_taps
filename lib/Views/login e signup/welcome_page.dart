@@ -16,10 +16,6 @@ class WelcomePage extends StatelessWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true, // Per estendere il corpo dietro l'appBar
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
       body: Stack(
         children: [
           // Sfondo coerente con il resto dell'app

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../generated/l10n.dart';
+
 class RedFollowButton extends StatelessWidget {
   final VoidCallback onPressed;
 
@@ -16,8 +18,8 @@ class RedFollowButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       ),
       onPressed: onPressed,
-      child: const Text(
-        'Segui',
+      child: Text(
+        S.of(context).follow,
         style: TextStyle(
           color: Colors.black,
           fontWeight: FontWeight.bold,

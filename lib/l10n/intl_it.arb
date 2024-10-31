@@ -27,6 +27,8 @@
   "log_out": "Esci",
   "sign_in_or_create_account": "Accedi o crea un nuovo account",
   "success": "Successo",
-  "language_changed": "Lingua cambiata con successo"
-
+  "language_changed": "Lingua cambiata con successo",
+  "welcome_in_the": "Benvenuto nel",
+  "follow": "Segui",
+  "share": "Condividi"
 }

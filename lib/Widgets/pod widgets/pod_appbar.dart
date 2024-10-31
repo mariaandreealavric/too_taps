@@ -4,6 +4,7 @@ import 'package:too_taps/Widgets/graphics/job_title_widget.dart';
 import 'package:too_taps/Widgets/graphics/profile_name_widget.dart';
 import 'package:too_taps/Widgets/graphics/red_circle_avatar_widget.dart';
 import '../../controllers/profile_controller.dart';
+import '../../generated/l10n.dart';
 import '../../models/profile_model.dart';
 
 class CustomPodAppBar extends StatelessWidget {
@@ -28,11 +29,11 @@ class CustomPodAppBar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Parte sinistra: "Welcome in the Pod"
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Welcome in the',
+                S.of(context).welcome_in_the,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20,

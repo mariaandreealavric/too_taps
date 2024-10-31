@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../generated/l10n.dart';
 import '../../services/auth_service.dart';
 import '../taps_home.dart'; // Importa GetX
 
@@ -69,8 +70,8 @@ class LoginPageState extends State<LoginPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: const Text(
-          'Login',
+        title: Text(
+          S.of(context).log_in,
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -128,8 +129,8 @@ class LoginPageState extends State<LoginPage> {
                     backgroundColor: Colors.blue,
                     padding: const EdgeInsets.symmetric(vertical: 15),
                   ),
-                  child: const Text(
-                    'Login',
+                  child: Text(
+                    S.of(context).log_in,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
