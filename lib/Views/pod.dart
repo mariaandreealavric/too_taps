@@ -5,11 +5,12 @@ import 'package:too_taps/Widgets/pod%20widgets/recap.dart';
 import 'package:too_taps/Widgets/pod%20widgets/reward_widget.dart';
 import 'package:too_taps/Widgets/pod%20widgets/suggested_profile_widget.dart';
 import '../Widgets/Navigazione/navigazione.dart';
+import '../controllers/Contatori/goal_controller.dart';
 import '../controllers/Contatori/scroll_counter.dart';
 import '../controllers/Contatori/touch_counter.dart';
 import '../controllers/profile_controller.dart';
 import '../controllers/theme_controller.dart';
-import '../models/mock_models.dart'; // Usa il percorso coerente per il controller
+import '../models/mock_models.dart';
 
 class PodPage extends StatelessWidget {
   const PodPage({super.key});
@@ -20,17 +21,16 @@ class PodPage extends StatelessWidget {
     final profileController = Get.find<ProfileController>();
     final scrollCounter = Get.find<ScrollCounter>();
     final touchCounter = Get.find<TouchCounter>();
+    final goalController = Get.find<GoalController>();
 
     final mockProfile = MockProfileModel();
 
     return GestureDetector(
       onTap: () {
-        // Incrementa i tocchi tramite GetX
         touchCounter.incrementTouches();
       },
       child: NotificationListener<ScrollNotification>(
         onNotification: (scrollNotification) {
-          // Incrementa il contatore ogni volta che c'è uno scroll
           if (scrollNotification is ScrollStartNotification ||
               scrollNotification is ScrollUpdateNotification ||
               scrollNotification is ScrollEndNotification) {
@@ -40,7 +40,7 @@ class PodPage extends StatelessWidget {
         },
         child: Scaffold(
           backgroundColor: Colors.black,
-          extendBodyBehindAppBar: true, // Estende il corpo dietro l'AppBar per renderla trasparente
+          extendBodyBehindAppBar: true,
           body: Stack(
             children: [
               Container(
@@ -52,15 +52,22 @@ class PodPage extends StatelessWidget {
                   child: Column(
                     children: [
                       CustomPodAppBar(profile: mockProfile),
-                      const RewardWidget(),
+                      Obx(() {
+                        final latestGoal = goalController.latestAchievedGoal;
+                        if (latestGoal != null) {
+                          return RewardWidget(goal: latestGoal);
+                        } else {
+                          return SizedBox.shrink(); // Se non c'è un goal, non mostra nulla
+                        }
+                      }),
                       SuggestedProfileWidget(
-                        profile: getRandomProfile(), // Passa un profilo casuale
+                        profile: getRandomProfile(),
                       ),
-                      const RecapWidget(),
+                      RecapWidget(),
                       SuggestedProfileWidget(
-                        profile: getRandomProfile(), // Passa un profilo casuale
+                        profile: getRandomProfile(),
                       ),
-                      const SizedBox(height: 100), // Spazio per evitare che il contenuto si sovrapponga alla barra di navigazione
+                      const SizedBox(height: 100),
                     ],
                   ),
                 ),
@@ -69,7 +76,7 @@ class PodPage extends StatelessWidget {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child: Navigation(profile: mockProfile), // Barra di navigazione fissa in basso
+                child: Navigation(profile: mockProfile),
               ),
             ],
           ),

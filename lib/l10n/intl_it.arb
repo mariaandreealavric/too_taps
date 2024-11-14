@@ -30,5 +30,8 @@
   "language_changed": "Lingua cambiata con successo",
   "welcome_in_the": "Benvenuto nel",
   "follow": "Segui",
-  "share": "Condividi"
+  "share": "Condividi",
+  "share_on_facebook": "Condividi su Facebook",
+  "share_on_x": "Condividi su X",
+  "share_on_instagram": "Condividi su Instagram"
 }

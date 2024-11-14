@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-
 import '../bottoni/share_button_widget.dart';
+import '../../controllers/share_controller.dart';
 
 class RecapWidget extends StatelessWidget {
-  const RecapWidget({Key? key}) : super(key: key);
+  RecapWidget({Key? key}) : super(key: key);
+
+  final ShareController shareController = ShareController(
+    postText: "Complimenti! Sei stato 9 ore in meno di ieri al telefono ristorando una statua",
+    postImageUrl: "path/to/image.png",
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +22,6 @@ class RecapWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Colonna con la data di oggi
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
@@ -32,7 +36,6 @@ class RecapWidget extends StatelessWidget {
             ],
           ),
           const SizedBox(width: 20),
-          // Colonna con il messaggio principale
           const Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,12 +60,7 @@ class RecapWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          // Bottone ShareButton all'estrema destra
-          ShareButton(
-            onPressed: () {
-              // Aggiungi l'azione del bottone qui
-            },
-          ),
+          ShareButton(shareController: shareController),
         ],
       ),
     );

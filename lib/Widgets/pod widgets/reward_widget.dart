@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:too_taps/Widgets/bottoni/share_button_widget.dart';
 
+import '../../controllers/Contatori/goal_controller.dart';
+import '../../controllers/share_controller.dart';
+
+
 class RewardWidget extends StatelessWidget {
-  const RewardWidget({Key? key}) : super(key: key);
+  final Goal goal;
+
+  const RewardWidget({Key? key, required this.goal}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final ShareController shareController = ShareController(postText: "Ho raggiunto ${goal.name}!", postImageUrl: "");
+
     return Container(
       width: double.infinity,
       height: 200,
@@ -23,9 +31,7 @@ class RewardWidget extends StatelessWidget {
             children: [
               const Row(
                 children: [
-                  Icon(Icons.location_on,
-                      size: 40,
-                      color: Colors.black),
+                  Icon(Icons.location_on, size: 40, color: Colors.black),
                   SizedBox(width: 8),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,31 +48,30 @@ class RewardWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              ShareButton(onPressed: () {}),
+              ShareButton(shareController: shareController),
+
             ],
           ),
           const SizedBox(height: 8),
-          // Seconda Row
-          const Row(
+          // Seconda Row con i dati dinamici dell'obiettivo
+          Row(
             children: [
-              Icon(Icons.star,
-                  size: 60,
-                  color: Colors.black), // Saturno icona, sostituita con una simile
-              SizedBox(width: 8),
+              const Icon(Icons.star, size: 60, color: Colors.black), // Icona
+              const SizedBox(width: 8),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Ux Scuti',
-                    style: TextStyle(
+                    goal.name,
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 35,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   Text(
-                    'Stella ipergigante rossa',
-                    style: TextStyle(
+                    goal.description,
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -77,25 +82,25 @@ class RewardWidget extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 20),
-          // Terza Row
-          const Row(
+          // Terza Row con i dettagli della distanza
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Distanza: 37 anni luce',
-                style: TextStyle(
+                'Distanza: ${goal.distance} milioni di km',
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Coordinate spaziali: 18h 27m 36,53s',
-                    style: TextStyle(
+                    'Coordinate spaziali: ${goal.coordinates}',
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 10,
                     ),
