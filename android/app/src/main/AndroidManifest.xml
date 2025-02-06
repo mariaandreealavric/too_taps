@@ -53,6 +53,5 @@
         </intent>
     </queries>
 
-    <!-- Permessi per il servizio di accessibilità -->
-    <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE"/>
+
 </manifest>

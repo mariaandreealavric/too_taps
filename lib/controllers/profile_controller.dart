@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 import '../models/profile_model.dart';
+import 'package:logger/logger.dart';
+
 
 // Dati mock per il profilo
 final mockProfileData = {
