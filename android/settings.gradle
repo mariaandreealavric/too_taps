@@ -23,3 +23,7 @@ plugins {
 }
 
 include ":app"
+
+// Integrazione Unreal Engine come modulo
+include ':unreal_engine'
+project(':unreal_engine').projectDir = new File(rootProject.projectDir, 'libs/unreal_engine.aar')

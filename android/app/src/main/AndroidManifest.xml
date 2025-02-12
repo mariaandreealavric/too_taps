@@ -22,11 +22,20 @@
             </intent-filter>
         </activity>
 
+        <!-- Dichiarazione dell'attività di Unreal Engine -->
+        <activity
+            android:name=".UnrealActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" /> <!-- Cambiato da landscape a portrait -->
+
         <!-- Dichiarazione del servizio di accessibilità -->
         <service
             android:name=".MyAccessibilityService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
-            android:exported="true">>
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
@@ -52,6 +61,4 @@
             <data android:mimeType="text/plain"/>
         </intent>
     </queries>
-
-
 </manifest>

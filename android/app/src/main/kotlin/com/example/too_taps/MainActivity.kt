@@ -1,9 +1,14 @@
 package com.example.too_taps
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.view.TextureView
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
+import io.flutter.plugin.platform.PlatformView
+import io.flutter.plugin.platform.PlatformViewFactory
 
 class MainActivity : FlutterActivity() {
     companion object {
@@ -13,5 +18,40 @@ class MainActivity : FlutterActivity() {
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         flutterEngineInstance = flutterEngine
+
+        // Registra il TextureView per Unreal Engine
+        flutterEngine
+            .platformViewsController
+            .registry
+            .registerViewFactory("unreal_texture_view", UnrealViewFactory(this))
+
+        // Metodo per avviare Unreal Engine e inviare tocchi
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "flutter_unreal").setMethodCallHandler { call, result ->
+            when (call.method) {
+                "launchUE" -> {
+                    val intent = Intent(this, UnrealActivity::class.java)
+                    startActivity(intent)
+                    result.success(null)
+                }
+                "onTouch" -> {
+                    val x = call.argument<Double>("x") ?: 0.0
+                    val y = call.argument<Double>("y") ?: 0.0
+                    UnrealActivity.sendTouchToUnreal(x, y)
+                    result.success(null)
+                }
+                else -> result.notImplemented()
+            }
+        }
+    }
+}
+
+// Classe per registrare il TextureView di Unreal
+class UnrealViewFactory(private val context: Context) : PlatformViewFactory(null) {
+    override fun create(context: Context, viewId: Int, args: Any?): PlatformView {
+        val textureView = TextureView(context)
+        return object : PlatformView {
+            override fun getView() = textureView
+            override fun dispose() {}
+        }
     }
 }
