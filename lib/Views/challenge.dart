@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // Importa GetX
 import '../controllers/challenge_controller.dart';
-import '../controllers/profile_controller.dart'; // Importa ProfileController
+import '../controllers/user_controller.dart'; // Importa ProfileController
 
 class ChallengePage extends StatelessWidget {
   final String userID;
@@ -11,7 +11,7 @@ class ChallengePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Ottieni l'istanza di ProfileController e ChallengeController usando GetX
-    final profileController = Get.find<ProfileController>();
+    final profileController = Get.find<UserController>();
     final challengeController = Get.find<ChallengeController>(); // Supponiamo che ChallengeController utilizzi anche GetX
 
     return Scaffold(
@@ -51,7 +51,7 @@ class ChallengePage extends StatelessWidget {
                 icon: const Icon(Icons.check),
                 onPressed: () async {
                   await challengeController.completeChallenge(); // Supponiamo che questo sia un metodo nel ChallengeController
-                  profileController.ensureProfileExists(userID); // Ricarica il profilo in tempo reale
+                  profileController.loadProfile(userID);
                 },
               ),
             );

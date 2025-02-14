@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../Widgets/Navigazione/navigazione.dart';
 import '../controllers/Contatori/scroll_counter.dart';
 import '../controllers/Contatori/touch_counter.dart';
-import '../controllers/profile_controller.dart';
+import '../controllers/user_controller.dart';
 import '../controllers/theme_controller.dart';
 
 class TapsHomePage extends StatefulWidget {
@@ -62,7 +62,7 @@ class TapsHomePageState extends State<TapsHomePage> with SingleTickerProviderSta
 
     // Use GetX for ThemeController
     final themeController = Get.find<ThemeController>();
-    final profileController = Get.find<ProfileController>(); // GetX ProfileController
+    final profileController = Get.find<UserController>(); // GetX ProfileController
     final scrollCounter = Get.find<ScrollCounter>(); // Usa GetX per il ScrollCounter
     final touchCounter = Get.find<TouchCounter>(); // Usa GetX per il TouchCounter
 

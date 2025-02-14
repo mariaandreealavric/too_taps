@@ -25,6 +25,12 @@ dependencies:
   intl: ^0.19.0  # Versione di `intl` consigliata per compatibilità
   share_plus: ^8.0.2  # Usa l'ultima versione disponibile
   flutter_accessibility_service: ^0.2.5 # Controlla l'ultima versione su pub.dev
+  firebase_core: ^2.15.0
+  firebase_auth: ^4.10.0
+  firebase_analytics: ^10.10.7
+  firebase_messaging: ^14.7.1
+  firebase_storage: ^11.2.2
+  cloud_firestore: ^4.15.4
 
 
 dev_dependencies:

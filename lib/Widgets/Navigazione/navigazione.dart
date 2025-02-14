@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/Contatori/navigation_controller.dart';
 import '../../controllers/Contatori/touch_counter.dart';
-import '../../models/profile_model.dart';
+import '../../models/user_model.dart';
 import 'dock_circle_widget.dart';
 import 'navigation_bar_widget.dart';
 import 'navigation_icons_row.dart';
 
 class Navigation extends StatefulWidget {
-  final ProfileModel profile;
+  final UserModel profile;
 
   const Navigation({super.key, required this.profile});
 

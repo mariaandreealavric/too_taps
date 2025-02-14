@@ -3,10 +3,10 @@ import 'package:too_taps/Widgets/bottoni/red_follow_botton.dart';
 import 'package:too_taps/Widgets/graphics/profile_name_widget.dart';
 import '../graphics/job_title_widget.dart';
 import '../graphics/red_circle_avatar_widget.dart';
-import '../../models/profile_model.dart';
+import '../../models/user_model.dart';
 
 class SuggestedProfileWidget extends StatelessWidget {
-  final ProfileModel profile;
+  final UserModel profile;
 
 
   const SuggestedProfileWidget({

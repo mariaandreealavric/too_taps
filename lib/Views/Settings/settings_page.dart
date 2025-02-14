@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:too_taps/controllers/theme_controller.dart';
 import 'package:too_taps/controllers/Contatori/touch_counter.dart';
 import 'package:too_taps/controllers/Contatori/scroll_counter.dart';
-import 'package:too_taps/controllers/profile_controller.dart';
+import 'package:too_taps/controllers/user_controller.dart';
 import 'package:too_taps/controllers/settings_controller.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -15,7 +15,7 @@ class SettingsPage extends StatelessWidget {
     final touchCounter = Get.find<TouchCounter>();
     final scrollCounter = Get.find<ScrollCounter>();
     final settingsController = Get.find<SettingsController>();
-    final profileController = Get.find<ProfileController>();
+    final profileController = Get.find<UserController>();
 
     return Scaffold(
       appBar: AppBar(

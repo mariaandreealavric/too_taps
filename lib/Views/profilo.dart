@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-import '../controllers/profile_controller.dart';
+import '../controllers/user_controller.dart';
 import '../widgets/navigazione/navigazione.dart'; // Importa NavigationHome
 import '../controllers/theme_controller.dart';
 import 'challenge.dart';
@@ -23,18 +23,20 @@ class ProfilePageState extends State<ProfilePage> {
   final TextEditingController _emailController = TextEditingController();
 
 
-  final ProfileController profileController = Get.put(ProfileController());
+  final UserController profileController = Get.put(UserController());
   final ThemeController themeController = Get.find<ThemeController>();
   File? _image;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      profileController.setMockProfile(widget.userID);
-      _nameController.text = profileController.profile.value?.displayName ?? '';
-      _emailController.text = profileController.profile.value?.email ?? '';
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await profileController.loadProfile(widget.userID); // Carica i dati reali da Firestore
 
+      if (profileController.profile.value != null) {
+        _nameController.text = profileController.profile.value!.displayName;
+        _emailController.text = profileController.profile.value!.email;
+      }
     });
   }
 

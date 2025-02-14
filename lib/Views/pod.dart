@@ -8,9 +8,9 @@ import '../Widgets/Navigazione/navigazione.dart';
 import '../controllers/Contatori/goal_controller.dart';
 import '../controllers/Contatori/scroll_counter.dart';
 import '../controllers/Contatori/touch_counter.dart';
-import '../controllers/profile_controller.dart';
+import '../controllers/user_controller.dart';
 import '../controllers/theme_controller.dart';
-import '../models/mock_models.dart';
+import '../models/user_model.dart';
 
 class PodPage extends StatelessWidget {
   const PodPage({super.key});
@@ -18,12 +18,13 @@ class PodPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeController = Get.find<ThemeController>();
-    final profileController = Get.find<ProfileController>();
+    final profileController = Get.find<UserController>();
     final scrollCounter = Get.find<ScrollCounter>();
     final touchCounter = Get.find<TouchCounter>();
     final goalController = Get.find<GoalController>();
+    final UserController userController = Get.find<UserController>(); // Recupera l'istanza esistente di UserController
 
-    final mockProfile = MockProfileModel();
+
 
     return GestureDetector(
       onTap: () {
@@ -51,7 +52,12 @@ class PodPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Column(
                     children: [
-                      CustomPodAppBar(profile: mockProfile),
+                      Obx(() {
+                        if (userController.profile.value == null) {
+                          return const SizedBox.shrink(); // Nasconde l'AppBar finché il profilo non è caricato
+                        }
+                        return CustomPodAppBar(profile: userController.profile.value!);
+                      }),
                       Obx(() {
                         final latestGoal = goalController.latestAchievedGoal;
                         if (latestGoal != null) {
@@ -60,13 +66,35 @@ class PodPage extends StatelessWidget {
                           return SizedBox.shrink(); // Se non c'è un goal, non mostra nulla
                         }
                       }),
-                      SuggestedProfileWidget(
-                        profile: getRandomProfile(),
+                      FutureBuilder<UserModel?>(
+                        future: userController.getRandomProfile(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          }
+                          if (snapshot.hasData && snapshot.data != null) {
+                            return SuggestedProfileWidget(profile: snapshot.data!);
+                          } else {
+                            return const SizedBox.shrink(); // Se non ci sono profili, non mostra nulla
+                          }
+                        },
                       ),
                       RecapWidget(),
-                      SuggestedProfileWidget(
-                        profile: getRandomProfile(),
+                      FutureBuilder<UserModel?>(
+                        future: userController.getRandomProfile(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          }
+                          if (snapshot.hasData && snapshot.data != null) {
+                            return SuggestedProfileWidget(profile: snapshot.data!);
+                          } else {
+                            return const SizedBox.shrink(); // Se non ci sono profili, non mostra nulla
+                          }
+                        },
                       ),
+
+
                       const SizedBox(height: 100),
                     ],
                   ),
@@ -76,7 +104,12 @@ class PodPage extends StatelessWidget {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child: Navigation(profile: mockProfile),
+                child: Obx(() {
+                  if (profileController.profile.value == null) {
+                    return CircularProgressIndicator(); // Mostra un indicatore di caricamento finché il profilo non è disponibile
+                  }
+                  return Navigation(profile: profileController.profile.value!);
+                }),
               ),
             ],
           ),

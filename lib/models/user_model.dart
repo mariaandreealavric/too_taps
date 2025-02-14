@@ -1,4 +1,6 @@
-class ProfileModel {
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class UserModel {
   final String uid;
   final String displayName;
   final String email;
@@ -10,7 +12,7 @@ class ProfileModel {
   List<String> trophies;
   List<Map<String, dynamic>> challenges;
 
-  ProfileModel({
+  UserModel({
     required this.uid,
     required this.displayName,
     required this.email,
@@ -19,12 +21,14 @@ class ProfileModel {
     required this.postImage,
     this.touches = 0,
     this.scrolls = 0,
-    this.trophies = const [],
-    this.challenges = const [],
-  });
+    List<String>? trophies,
+    List<Map<String, dynamic>>? challenges,
+  })  : trophies = trophies ?? [],
+        challenges = challenges ?? [];
 
-  factory ProfileModel.fromFirestore(Map<String, dynamic> data, String id) {
-    return ProfileModel(
+  // **Converti Firestore DocumentSnapshot in UserModel**
+  factory UserModel.fromFirestore(Map<String, dynamic> data, String id) {
+    return UserModel(
       uid: id,
       displayName: data['displayName'] ?? '',
       email: data['email'] ?? '',
@@ -38,7 +42,10 @@ class ProfileModel {
     );
   }
 
-  Map<String, dynamic> toFirestore() {
+
+
+  // **Converti UserModel in una mappa per Firebase**
+  Map<String, dynamic> toMap() {
     return {
       'displayName': displayName,
       'email': email,
@@ -52,7 +59,7 @@ class ProfileModel {
     };
   }
 
-  ProfileModel copyWith({
+  UserModel copyWith({
     String? displayName,
     String? email,
     String? photoUrl,
@@ -63,7 +70,7 @@ class ProfileModel {
     List<String>? trophies,
     List<Map<String, dynamic>>? challenges,
   }) {
-    return ProfileModel(
+    return UserModel(
       uid: uid,
       displayName: displayName ?? this.displayName,
       email: email ?? this.email,

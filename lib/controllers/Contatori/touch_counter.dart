@@ -5,18 +5,18 @@
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
-import '../../models/profile_model.dart';
+import '../../models/user_model.dart';
 
 class TouchCounter extends GetxController {
-  late ProfileModel userProfile; // Usa 'late' per l'inizializzazione successiva
+  late UserModel userProfile; // Usa 'late' per l'inizializzazione successiva
   var touches = 0.obs; // Utilizza 'RxInt' per rendere la variabile reattiva
 
-  TouchCounter(ProfileModel profile) {
+  TouchCounter(UserModel profile) {
     userProfile = profile;
     touches.value = userProfile.touches; // Imposta il valore iniziale
   }
 
-  void updateProfile(ProfileModel profile) {
+  void updateProfile(UserModel profile) {
     userProfile = profile;
     touches.value = profile.touches;
   }

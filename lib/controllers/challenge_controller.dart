@@ -1,20 +1,20 @@
 import 'package:get/get.dart';
-import '../models/profile_model.dart';
+import '../models/user_model.dart';
 import '../services/challenge_service.dart';
 
 class ChallengeController extends GetxController {
  // final ChallengeService _challengeService = ChallengeService();
   DateTime? _startTime;
-  ProfileModel? _challenger;
-  ProfileModel? _opponent;
+  UserModel? _challenger;
+  UserModel? _opponent;
 
   var isChallengeOngoing = false.obs; // Usa RxBool per la reattività
 
   DateTime? get startTime => _startTime;
-  ProfileModel? get challenger => _challenger;
-  ProfileModel? get opponent => _opponent;
+  UserModel? get challenger => _challenger;
+  UserModel? get opponent => _opponent;
 
-  void startChallenge(ProfileModel challenger, ProfileModel opponent) {
+  void startChallenge(UserModel challenger, UserModel opponent) {
     _challenger = challenger;
     _opponent = opponent;
     _startTime = DateTime.now();

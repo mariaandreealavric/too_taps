@@ -2,7 +2,7 @@
 /*
 import 'dart:async';
 //import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fingerfy/models/profile_model.dart';
+import 'package:fingerfy/models/user_model.dart';
 
 import 'package:fingerfy/Services/shared_preferences.dart';
 //import 'package:firebase_auth/firebase_auth.dart';

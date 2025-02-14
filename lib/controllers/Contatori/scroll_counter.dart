@@ -1,17 +1,17 @@
 // controllers/scroll_counter.dart
 import 'package:get/get.dart';
-import '../../models/profile_model.dart';
+import '../../models/user_model.dart';
 
 class ScrollCounter extends GetxController {
-  late ProfileModel userProfile; // Usa 'late' per l'inizializzazione successiva
+  late UserModel userProfile; // Usa 'late' per l'inizializzazione successiva
   var scrolls = 0.obs; // Utilizza 'RxInt' per rendere la variabile reattiva
 
-  ScrollCounter(ProfileModel profile) {
+  ScrollCounter(UserModel profile) {
     userProfile = profile;
     scrolls.value = userProfile.scrolls; // Imposta il valore iniziale
   }
 
-  void updateProfile(ProfileModel profile) {
+  void updateProfile(UserModel profile) {
     userProfile = profile;
     scrolls.value = profile.scrolls;
   }

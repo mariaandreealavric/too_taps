@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/challenge_controller.dart';
-import '../../models/profile_model.dart'; // Assicurati di importare il controller giusto
+import '../../models/user_model.dart'; // Assicurati di importare il controller giusto
 
 class ChallengeButton extends StatelessWidget {
-  final ProfileModel challenger;
-  final ProfileModel opponent;
+  final UserModel challenger;
+  final UserModel opponent;
 
   const ChallengeButton({super.key, required this.challenger, required this.opponent});
 

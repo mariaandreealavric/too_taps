@@ -3,12 +3,12 @@ import 'package:get/get.dart';
 import 'package:too_taps/Widgets/graphics/job_title_widget.dart';
 import 'package:too_taps/Widgets/graphics/profile_name_widget.dart';
 import 'package:too_taps/Widgets/graphics/red_circle_avatar_widget.dart';
-import '../../controllers/profile_controller.dart';
+import '../../controllers/user_controller.dart';
 import '../../generated/l10n.dart';
-import '../../models/profile_model.dart';
+import '../../models/user_model.dart';
 
 class CustomPodAppBar extends StatelessWidget {
-  final ProfileModel profile;
+  final UserModel profile;
 
   const CustomPodAppBar({Key? key, required this.profile}) : super(key: key);
 

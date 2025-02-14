@@ -8,7 +8,7 @@ import '../controllers/Contatori/touch_counter.dart';
 import '../controllers/theme_controller.dart';
 import '../widgets/Navigazione/navigazione.dart'; // Importa Navigation
 import '../widgets/title_widget.dart'; // Importa TitleWidget
-import '../controllers/profile_controller.dart';
+import '../controllers/user_controller.dart';
 
 class ScrollingPage extends StatefulWidget {
   final String userID;
@@ -86,7 +86,7 @@ class ScrollingPageState extends State<ScrollingPage> {
   @override
   Widget build(BuildContext context) {
     final themeController = Get.find<ThemeController>(); // Usa GetX per il ThemeController
-    final profileController = Get.find<ProfileController>(); // Usa GetX per il ProfileController
+    final profileController = Get.find<UserController>(); // Usa GetX per il ProfileController
     final scrollCounter = Get.find<ScrollCounter>(); // Usa GetX per il ScrollCounter
     final touchCounter = Get.find<TouchCounter>(); // Usa GetX per il TouchCounter
 
