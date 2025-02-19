@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "568959015346",
+    "project_id": "too-taps",
+    "storage_bucket": "too-taps.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:568959015346:android:24640fe46259e2be91acab",
+        "android_client_info": {
+          "package_name": "com.example.too_taps"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBv2mBYCL451S58CuOgoHGA8LEpi-MCjXI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

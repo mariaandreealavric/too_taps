@@ -2,7 +2,6 @@ package com.example.too_taps
 
 import android.graphics.SurfaceTexture
 import android.os.Bundle
-import android.view.MotionEvent
 import android.view.TextureView
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +14,6 @@ class UnrealActivity : GameActivity(), TextureView.SurfaceTextureListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Creiamo una TextureView per Unreal
         textureView = TextureView(this)
         textureView.surfaceTextureListener = this
         textureView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -24,14 +22,6 @@ class UnrealActivity : GameActivity(), TextureView.SurfaceTextureListener {
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-
-        // Imposta il listener per il tocco
-        textureView.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_DOWN || event.action == MotionEvent.ACTION_MOVE) {
-                sendTouchToUnreal(event.x.toDouble(), event.y.toDouble())
-            }
-            true
-        }
 
         setContentView(textureView)
     }
@@ -45,13 +35,12 @@ class UnrealActivity : GameActivity(), TextureView.SurfaceTextureListener {
     override fun onSurfaceTextureUpdated(surface: SurfaceTexture) {}
 
     companion object {
-        fun sendTouchToUnreal(x: Double, y: Double) {
-            // Logica per inviare il tocco a Unreal Engine (devi implementarlo in Unreal)
-            nativeSendTouch(x, y)
+        fun sendEventToUnreal(event: String) {
+            nativeSendEvent(event)
         }
 
         // Funzione nativa che Unreal Engine implementerà
         @JvmStatic
-        private external fun nativeSendTouch(x: Double, y: Double)
+        private external fun nativeSendEvent(event: String)
     }
 }

@@ -1,6 +1,5 @@
 package com.example.too_taps
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.TextureView
@@ -25,7 +24,7 @@ class MainActivity : FlutterActivity() {
             .registry
             .registerViewFactory("unreal_texture_view", UnrealViewFactory(this))
 
-        // Metodo per avviare Unreal Engine e inviare tocchi
+        // Metodo per inviare eventi a Unreal Engine
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "flutter_unreal").setMethodCallHandler { call, result ->
             when (call.method) {
                 "launchUE" -> {
@@ -33,10 +32,20 @@ class MainActivity : FlutterActivity() {
                     startActivity(intent)
                     result.success(null)
                 }
-                "onTouch" -> {
-                    val x = call.argument<Double>("x") ?: 0.0
-                    val y = call.argument<Double>("y") ?: 0.0
-                    UnrealActivity.sendTouchToUnreal(x, y)
+                "shatterStatue" -> {
+                    UnrealActivity.sendEventToUnreal("ShatterEvent")
+                    result.success(null)
+                }
+                "changeStatue" -> {
+                    UnrealActivity.sendEventToUnreal("ChangeStatueEvent")
+                    result.success(null)
+                }
+                "resetStatue" -> {
+                    UnrealActivity.sendEventToUnreal("ResetStatueEvent")
+                    result.success(null)
+                }
+                "saveData" -> {
+                    UnrealActivity.sendEventToUnreal("SaveDataEvent")
                     result.success(null)
                 }
                 else -> result.notImplemented()
