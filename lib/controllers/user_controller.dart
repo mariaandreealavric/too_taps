@@ -10,7 +10,10 @@ class UserController extends GetxController {
   var isLoading = false.obs;
   var errorMessage = ''.obs;
 
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore;
+
+  UserController({FirebaseFirestore? firestore})
+      : _firestore = firestore ?? FirebaseFirestore.instance;
 
   // **Getter per ottenere l'utente attuale**
   UserModel? get currentUser => profile.value;
