@@ -19,3 +19,8 @@ samples, guidance on mobile development, and a full API reference.
 
 System-wide touch counting is supported only on Android. On iOS, touch
 detection is limited to interactions inside the app.
+
+## License
+
+This project is licensed under the terms of the [MIT License](LICENSE).
+
