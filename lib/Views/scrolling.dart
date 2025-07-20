@@ -9,6 +9,7 @@ import '../controllers/theme_controller.dart';
 import '../widgets/Navigazione/navigazione.dart'; // Importa Navigation
 import '../widgets/title_widget.dart'; // Importa TitleWidget
 import '../controllers/user_controller.dart';
+import '../widgets/distance_counter_widget.dart';
 
 class ScrollingPage extends StatefulWidget {
   final String userID;
@@ -126,20 +127,24 @@ class ScrollingPageState extends State<ScrollingPage> {
                     backgroundColor: Colors.transparent,
                     elevation: 0,
                     centerTitle: true, // Centro il titolo
-                    title: const Text(
-                      'Scrolling', // Scritta "Scrolling"
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontFamily: 'KeplerStd',
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.normal,
-                      ),
+                  title: const Text(
+                    'Scrolling', // Scritta "Scrolling"
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontFamily: 'KeplerStd',
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.bottomRight, // Fissa il contenuto in basso a destra
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: DistanceCounterWidget(),
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomRight, // Fissa il contenuto in basso a destra
                       child: Padding(
                         padding: const EdgeInsets.all(16.0), // Aggiunge un po' di padding se necessario
                         child: Obx(() {
