@@ -33,6 +33,9 @@ dependencies:
   cloud_firestore: ^4.15.4
   dart_openai: ^5.0.0
 
+  geolocator: ^11.0.0
+  geocoding: ^2.2.0
+
 
 dev_dependencies:
   flutter_test:
