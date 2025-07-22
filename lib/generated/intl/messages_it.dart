@@ -62,6 +62,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Condividi su Facebook"),
         "share_on_instagram":
             MessageLookupByLibrary.simpleMessage("Condividi su Instagram"),
+        "new_milestone": MessageLookupByLibrary.simpleMessage("Nuovo Traguardo"),
         "share_on_x": MessageLookupByLibrary.simpleMessage("Condividi su X"),
         "sign_in_or_create_account": MessageLookupByLibrary.simpleMessage(
             "Accedi o crea un nuovo account"),
