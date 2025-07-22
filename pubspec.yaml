@@ -31,8 +31,8 @@ dependencies:
   firebase_messaging: ^14.7.1
   firebase_storage: ^11.2.2
   cloud_firestore: ^4.15.4
-  geolocator: ^11.0.0
-  geocoding: ^2.2.0
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
 
 
 dev_dependencies:
