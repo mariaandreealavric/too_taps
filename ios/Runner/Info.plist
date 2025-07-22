@@ -41,9 +41,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>Location is used to set your starting city for distance calculations.</string>
+<key>CADisableMinimumFrameDurationOnPhone</key>
+<true/>
+<key>UIApplicationSupportsIndirectInputEvents</key>
+<true/>
 </dict>
 </plist>
