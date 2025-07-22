@@ -8,6 +8,8 @@ import '../Widgets/Navigazione/navigazione.dart';
 import '../controllers/Contatori/goal_controller.dart';
 import '../controllers/Contatori/scroll_counter.dart';
 import '../controllers/Contatori/touch_counter.dart';
+import '../controllers/post_controller.dart';
+import '../Widgets/post_widgets/generated_post_widget.dart';
 import '../controllers/user_controller.dart';
 import '../controllers/theme_controller.dart';
 import '../models/user_model.dart';
@@ -23,6 +25,10 @@ class PodPage extends StatelessWidget {
     final touchCounter = Get.find<TouchCounter>();
     final goalController = Get.find<GoalController>();
     final UserController userController = Get.find<UserController>(); // Recupera l'istanza esistente di UserController
+    final postController = Get.find<PostController>();
+
+    // Controlla subito se ci sono nuovi traguardi
+    postController.checkGoals();
 
 
 
@@ -80,6 +86,13 @@ class PodPage extends StatelessWidget {
                         },
                       ),
                       RecapWidget(),
+                      Obx(() {
+                        return Column(
+                          children: postController.posts
+                              .map((p) => GeneratedPostWidget(post: p))
+                              .toList(),
+                        );
+                      }),
                       FutureBuilder<UserModel?>(
                         future: userController.getRandomProfile(),
                         builder: (context, snapshot) {

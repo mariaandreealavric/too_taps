@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'controllers/Contatori/scroll_counter.dart';
 import 'controllers/Contatori/touch_counter.dart';
+import 'controllers/post_controller.dart';
 import 'controllers/language_controller.dart';
 import 'controllers/user_controller.dart';
 import 'controllers/theme_controller.dart';
@@ -42,6 +43,7 @@ void main() async {
     // Inizializza i contatori con il profilo caricato da Firebase
     Get.put(ScrollCounter(userProfile));
     Get.put(TouchCounter(userProfile));
+    Get.put(PostController());
   } else {
     print('Errore: Profilo utente non disponibile.');
   }
