@@ -4,6 +4,9 @@ import '../services/post_ai_service.dart';
 import 'Contatori/touch_counter.dart';
 import 'Contatori/scroll_counter.dart';
 import 'user_controller.dart';
+import '../services/post_ai_service.dart';
+import 'Contatori/touch_counter.dart';
+import 'Contatori/scroll_counter.dart';
 
 class GeneratedPost {
   final String text;
@@ -19,6 +22,11 @@ class PostController extends GetxController {
   PostController({FirebaseFirestore? firestore})
       : _firestore = firestore ?? FirebaseFirestore.instance;
 
+
+  GeneratedPost(this.text) : createdAt = DateTime.now();
+}
+
+class PostController extends GetxController {
   var posts = <GeneratedPost>[].obs;
 
   final List<int> scrollGoals = [50, 200, 500];
@@ -71,6 +79,7 @@ class PostController extends GetxController {
       if (uid != null) {
         await _savePost(uid, text);
       }
+
       _nextScrollGoalIndex++;
       created = true;
     }
@@ -84,6 +93,7 @@ class PostController extends GetxController {
         if (uid != null) {
           await _savePost(uid, text);
         }
+
       }
       _nextTouchGoalIndex++;
     }

@@ -1,5 +1,8 @@
 import 'dart:ui';
 import 'package:google_generative_ai/google_generative_ai.dart';
+=======
+import 'package:dart_openai/dart_openai.dart';
+
 import 'package:get/get.dart';
 
 class PostAIService {
@@ -12,6 +15,7 @@ class PostAIService {
     final languageCode = locale.languageCode;
 
     final apiKey = const String.fromEnvironment('GOOGLE_API_KEY', defaultValue: '');
+    final apiKey = const String.fromEnvironment('OPENAI_API_KEY', defaultValue: '');
     if (apiKey.isEmpty) {
       // Simple fallback text if no API key is provided
       if (languageCode == 'it') {
@@ -29,6 +33,18 @@ class PostAIService {
       Content.text(prompt)
     ]);
     return response.text?.trim() ?? '';
+    OpenAI.apiKey = apiKey;
+
+    final languageName = _languageName(languageCode);
+
+    final completion = await OpenAI.instance.chat.create(
+      model: 'gpt-3.5-turbo',
+      messages: [
+        ChatMessage.system('You are an assistant that writes short social posts in $languageName.'),
+        ChatMessage.user('Create a short motivational post celebrating that the user performed only $touches touches and $scrolls scrolls. Reply in $languageName.'),
+      ],
+    );
+    return completion.choices.first.message.content.trim();
   }
 
   String _languageName(String code) {
