@@ -60,6 +60,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Share on Facebook"),
         "share_on_instagram":
             MessageLookupByLibrary.simpleMessage("Share on Instagram"),
+        "new_milestone": MessageLookupByLibrary.simpleMessage("New Milestone"),
         "share_on_x": MessageLookupByLibrary.simpleMessage("Share on X"),
         "sign_in_or_create_account": MessageLookupByLibrary.simpleMessage(
             "Sign in or create a new account"),

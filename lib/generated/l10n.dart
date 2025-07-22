@@ -389,6 +389,16 @@ class S {
       args: [],
     );
   }
+
+  /// `New Milestone`
+  String get new_milestone {
+    return Intl.message(
+      'New Milestone',
+      name: 'new_milestone',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
