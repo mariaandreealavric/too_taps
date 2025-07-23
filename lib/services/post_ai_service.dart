@@ -1,22 +1,20 @@
 import 'dart:ui';
 import 'package:google_generative_ai/google_generative_ai.dart';
-=======
-import 'package:dart_openai/dart_openai.dart';
-
 import 'package:get/get.dart';
 
 class PostAIService {
-  PostAIService._();
+  PostAIService._({GenerativeModel? model}) : _model = model;
+
+  final GenerativeModel? _model;
 
   static final PostAIService instance = PostAIService._();
 
-  Future<String> generatePost(int scrolls, int touches) async {
+  Future<String> generatePost(int scrolls, int touches, {GenerativeModel? model}) async {
     final locale = Get.locale ?? const Locale('en', 'US');
     final languageCode = locale.languageCode;
 
     final apiKey = const String.fromEnvironment('GOOGLE_API_KEY', defaultValue: '');
-    final apiKey = const String.fromEnvironment('OPENAI_API_KEY', defaultValue: '');
-    if (apiKey.isEmpty) {
+    if (apiKey.isEmpty && model == null && _model == null) {
       // Simple fallback text if no API key is provided
       if (languageCode == 'it') {
         return 'Ho toccato solo $touches volte e scrollato $scrolls volte oggi! Continua così!';
@@ -26,25 +24,13 @@ class PostAIService {
 
     final languageName = _languageName(languageCode);
 
-    final model = GenerativeModel(model: 'gemini-pro', apiKey: apiKey);
+    final generativeModel = model ?? _model ?? GenerativeModel(model: 'gemini-pro', apiKey: apiKey);
     final prompt =
         'Create a short motivational post celebrating that the user performed only $touches touches and $scrolls scrolls. Reply in $languageName.';
-    final response = await model.generateContent([
+    final response = await generativeModel.generateContent([
       Content.text(prompt)
     ]);
     return response.text?.trim() ?? '';
-    OpenAI.apiKey = apiKey;
-
-    final languageName = _languageName(languageCode);
-
-    final completion = await OpenAI.instance.chat.create(
-      model: 'gpt-3.5-turbo',
-      messages: [
-        ChatMessage.system('You are an assistant that writes short social posts in $languageName.'),
-        ChatMessage.user('Create a short motivational post celebrating that the user performed only $touches touches and $scrolls scrolls. Reply in $languageName.'),
-      ],
-    );
-    return completion.choices.first.message.content.trim();
   }
 
   String _languageName(String code) {
