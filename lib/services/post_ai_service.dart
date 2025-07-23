@@ -15,6 +15,8 @@ class PostAIService {
 
     final apiKey = const String.fromEnvironment('GOOGLE_API_KEY', defaultValue: '');
     if (apiKey.isEmpty && model == null && _model == null) {
+
+    if (apiKey.isEmpty) {
       // Simple fallback text if no API key is provided
       if (languageCode == 'it') {
         return 'Ho toccato solo $touches volte e scrollato $scrolls volte oggi! Continua così!';
