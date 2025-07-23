@@ -1,5 +1,8 @@
 import 'dart:ui';
+import 'package:google_generative_ai/google_generative_ai.dart';
+=======
 import 'package:dart_openai/dart_openai.dart';
+
 import 'package:get/get.dart';
 
 class PostAIService {
@@ -11,6 +14,7 @@ class PostAIService {
     final locale = Get.locale ?? const Locale('en', 'US');
     final languageCode = locale.languageCode;
 
+    final apiKey = const String.fromEnvironment('GOOGLE_API_KEY', defaultValue: '');
     final apiKey = const String.fromEnvironment('OPENAI_API_KEY', defaultValue: '');
     if (apiKey.isEmpty) {
       // Simple fallback text if no API key is provided
@@ -20,6 +24,15 @@ class PostAIService {
       return 'I touched only $touches times and scrolled $scrolls times today! Keep it up!';
     }
 
+    final languageName = _languageName(languageCode);
+
+    final model = GenerativeModel(model: 'gemini-pro', apiKey: apiKey);
+    final prompt =
+        'Create a short motivational post celebrating that the user performed only $touches touches and $scrolls scrolls. Reply in $languageName.';
+    final response = await model.generateContent([
+      Content.text(prompt)
+    ]);
+    return response.text?.trim() ?? '';
     OpenAI.apiKey = apiKey;
 
     final languageName = _languageName(languageCode);
