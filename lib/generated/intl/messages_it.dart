@@ -47,6 +47,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "log_in": MessageLookupByLibrary.simpleMessage("Accedi"),
         "log_out": MessageLookupByLibrary.simpleMessage("Esci"),
         "login": MessageLookupByLibrary.simpleMessage("Accedi"),
+        "new_milestone":
+            MessageLookupByLibrary.simpleMessage("Nuovo Traguardo"),
         "next": MessageLookupByLibrary.simpleMessage("Avanti"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifiche"),
         "password": MessageLookupByLibrary.simpleMessage("Password"),
@@ -62,7 +64,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Condividi su Facebook"),
         "share_on_instagram":
             MessageLookupByLibrary.simpleMessage("Condividi su Instagram"),
-        "new_milestone": MessageLookupByLibrary.simpleMessage("Nuovo Traguardo"),
         "share_on_x": MessageLookupByLibrary.simpleMessage("Condividi su X"),
         "sign_in_or_create_account": MessageLookupByLibrary.simpleMessage(
             "Accedi o crea un nuovo account"),
