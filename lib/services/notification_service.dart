@@ -45,8 +45,7 @@ class NotificationService {
           priority: Priority.high,
         ),
       ),
-      androidScheduleMode: AndroidScheduleMode.exact, // Nuovo parametro
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.wallClockTime,
+      androidScheduleMode: AndroidScheduleMode.exact,
       matchDateTimeComponents: DateTimeComponents.time,
     );
   }
