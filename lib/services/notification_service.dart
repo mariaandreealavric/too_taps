@@ -28,13 +28,15 @@ class NotificationService {
     const int id = 0;
     const String title = 'Sfida giornaliera';
     const String body = 'Controlla i tocchi e gli scroll della tua sfida!';
-    final Time time = Time(20, 0, 0); // 8:00 PM
+    const int hour = 20;
+    const int minute = 0;
+    const int second = 0; // 8:00 PM
 
     await _flutterLocalNotificationsPlugin.zonedSchedule(
       id,
       title,
       body,
-      _nextInstanceOfTime(time),
+      _nextInstanceOfTime(hour, minute, second),
       const NotificationDetails(
         android: AndroidNotificationDetails(
           'daily_notification_channel_id',
@@ -49,9 +51,17 @@ class NotificationService {
     );
   }
 
-  tz.TZDateTime _nextInstanceOfTime(Time time) {
+  tz.TZDateTime _nextInstanceOfTime(int hour, int minute, [int second = 0]) {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate = tz.TZDateTime(tz.local, now.year, now.month, now.day, time.hour, time.minute, time.second);
+    tz.TZDateTime scheduledDate = tz.TZDateTime(
+      tz.local,
+      now.year,
+      now.month,
+      now.day,
+      hour,
+      minute,
+      second,
+    );
     if (scheduledDate.isBefore(now)) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
@@ -59,10 +69,3 @@ class NotificationService {
   }
 }
 
-class Time {
-  final int hour;
-  final int minute;
-  final int second;
-
-  Time(this.hour, this.minute, this.second);
-}
