@@ -1,6 +1,7 @@
 // controllers/scroll_counter.dart
 import 'package:get/get.dart';
 import '../../models/user_model.dart';
+import '../post_controller.dart';
 
 class ScrollCounter extends GetxController {
   late UserModel userProfile; // Usa 'late' per l'inizializzazione successiva
@@ -19,6 +20,9 @@ class ScrollCounter extends GetxController {
   void incrementScrolls() {
     scrolls.value++;
     userProfile.scrolls = scrolls.value; // Aggiorna il modello
+    if (Get.isRegistered<PostController>()) {
+      Get.find<PostController>().checkGoals();
+    }
     //_updateProfileData(); // Aggiorna il database
   }
 

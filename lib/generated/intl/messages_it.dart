@@ -47,6 +47,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "log_in": MessageLookupByLibrary.simpleMessage("Accedi"),
         "log_out": MessageLookupByLibrary.simpleMessage("Esci"),
         "login": MessageLookupByLibrary.simpleMessage("Accedi"),
+        "new_milestone":
+            MessageLookupByLibrary.simpleMessage("Nuovo Traguardo"),
         "next": MessageLookupByLibrary.simpleMessage("Avanti"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifiche"),
         "password": MessageLookupByLibrary.simpleMessage("Password"),

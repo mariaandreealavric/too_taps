@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import '../../models/user_model.dart';
+import '../post_controller.dart';
 
 class TouchCounter extends GetxController {
   late UserModel userProfile; // Usa 'late' per l'inizializzazione successiva
@@ -24,6 +25,9 @@ class TouchCounter extends GetxController {
   void incrementTouches() {
     touches.value++;
     userProfile.touches = touches.value; // Aggiorna il modello
+    if (Get.isRegistered<PostController>()) {
+      Get.find<PostController>().checkGoals();
+    }
     //_updateProfileData(); // Aggiorna il database
   }
 
