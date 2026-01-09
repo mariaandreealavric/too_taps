@@ -2,13 +2,11 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // Importa GetX
-import 'package:logger/logger.dart';
 import '../controllers/Contatori/scroll_counter.dart';
 import '../controllers/Contatori/touch_counter.dart';
-import '../controllers/theme_controller.dart';
-import '../widgets/Navigazione/navigazione.dart'; // Importa Navigation
-import '../widgets/title_widget.dart'; // Importa TitleWidget
+import '../widgets/Navigazione/navigazione.dart';
 import '../controllers/user_controller.dart';
+import '../controllers/scroll_analysis_controller.dart';
 
 class ScrollingPage extends StatefulWidget {
   final String userID;
@@ -23,10 +21,8 @@ class ScrollingPageState extends State<ScrollingPage> {
   final ScrollController _scrollController = ScrollController();
   double _lastScrollPosition = 0.0;
   final List<Color> _itemColors = [];
-  final double _itemHeight = 750.0;
   late StreamController<double> _scrollStreamController;
   final String distanceUnit = "meters";
-  final Logger _logger = Logger();
 
   @override
   void initState() {
@@ -85,10 +81,9 @@ class ScrollingPageState extends State<ScrollingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final themeController = Get.find<ThemeController>(); // Usa GetX per il ThemeController
-    final profileController = Get.find<UserController>(); // Usa GetX per il ProfileController
-    final scrollCounter = Get.find<ScrollCounter>(); // Usa GetX per il ScrollCounter
-    final touchCounter = Get.find<TouchCounter>(); // Usa GetX per il TouchCounter
+    final profileController = Get.find<UserController>();
+    final scrollCounter = Get.find<ScrollCounter>();
+    final touchCounter = Get.find<TouchCounter>();
 
     // Controlla se il profilo è caricato
     if (profileController.profile.value == null) {
@@ -116,7 +111,7 @@ class ScrollingPageState extends State<ScrollingPage> {
             children: [
               Positioned.fill(
                 child: Image.asset(
-                  'assets/space.png', // Percorso dell'immagine
+                  'assets/space.png',
                   fit: BoxFit.cover,
                 ),
               ),
@@ -125,9 +120,9 @@ class ScrollingPageState extends State<ScrollingPage> {
                   AppBar(
                     backgroundColor: Colors.transparent,
                     elevation: 0,
-                    centerTitle: true, // Centro il titolo
+                    centerTitle: true,
                     title: const Text(
-                      'Scrolling', // Scritta "Scrolling"
+                      'Scrolling',
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white,
@@ -137,18 +132,19 @@ class ScrollingPageState extends State<ScrollingPage> {
                       ),
                     ),
                   ),
+                  const _ScrollStageView(),
                   Expanded(
                     child: Align(
-                      alignment: Alignment.bottomRight, // Fissa il contenuto in basso a destra
+                      alignment: Alignment.bottomRight,
                       child: Padding(
-                        padding: const EdgeInsets.all(16.0), // Aggiunge un po' di padding se necessario
+                        padding: const EdgeInsets.all(16.0),
                         child: Obx(() {
                           return RichText(
-                            textAlign: TextAlign.right, // Allinea il testo a destra
+                            textAlign: TextAlign.right,
                             text: TextSpan(
                               children: [
                                 const TextSpan(
-                                  text: 'Scrolling', // Testo prima di andare a capo
+                                  text: 'Scrolling',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 80,
@@ -158,7 +154,7 @@ class ScrollingPageState extends State<ScrollingPage> {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: '\n${scrollCounter.scrolls}', // A capo con il numero degli scroll
+                                  text: '\n${scrollCounter.scrolls}',
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 60,
@@ -174,18 +170,108 @@ class ScrollingPageState extends State<ScrollingPage> {
                       ),
                     ),
                   ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Navigation(profile: profile), // Barra di navigazione fissa in basso
-                  ),
                 ],
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Navigation(profile: profile),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+class _ScrollStageView extends StatelessWidget {
+  const _ScrollStageView();
+
+  @override
+  Widget build(BuildContext context) {
+    final analysisController = Get.find<ScrollAnalysisController>();
+    return Obx(() {
+      final stage = analysisController.currentStage.value;
+      final distance = analysisController.currentDistanceMeters;
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.55),
+          borderRadius: BorderRadius.circular(28),
+          border: Border.all(color: stage.accentColor.withOpacity(0.5)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              stage.title,
+              style: TextStyle(
+                color: stage.accentColor,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              stage.subtitle,
+              style: const TextStyle(
+                color: Colors.white70,
+                fontSize: 14,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'Distanza registrata: ${distance.toStringAsFixed(0)} m',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Container(
+              height: 160,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(color: Colors.white12),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Placeholder vista 3D Unreal',
+                    style: TextStyle(
+                      color: Colors.white54,
+                      fontSize: 14,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Cue scena: ${stage.unrealCue}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  const Text(
+                    'Il modello 3D si fermerà su questo layer.',
+                    style: TextStyle(
+                      color: Colors.white38,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

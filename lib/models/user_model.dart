@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class UserModel {
   final String uid;
   final String displayName;
@@ -83,4 +81,5 @@ class UserModel {
       challenges: challenges ?? this.challenges,
     );
   }
+
 }

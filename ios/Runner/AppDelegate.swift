@@ -8,6 +8,16 @@ import UIKit
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
+
+    if let controller = window?.rootViewController as? FlutterViewController {
+      let messenger = controller.binaryMessenger
+      UnrealBridge.shared.configureChannels(messenger: messenger)
+      let factory = UnrealPlatformViewFactory()
+      registrar(forPlugin: "unreal_texture_view")?.register(
+        factory,
+        withId: "unreal_texture_view"
+      )
+    }
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }

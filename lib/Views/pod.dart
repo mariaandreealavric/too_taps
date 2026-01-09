@@ -4,6 +4,7 @@ import 'package:too_taps/Widgets/pod%20widgets/pod_appbar.dart';
 import 'package:too_taps/Widgets/pod%20widgets/recap.dart';
 import 'package:too_taps/Widgets/pod%20widgets/reward_widget.dart';
 import 'package:too_taps/Widgets/pod%20widgets/suggested_profile_widget.dart';
+import 'package:too_taps/Widgets/pod%20widgets/report_widget.dart';
 import '../Widgets/Navigazione/navigazione.dart';
 import '../controllers/Contatori/goal_controller.dart';
 import '../controllers/Contatori/scroll_counter.dart';
@@ -54,10 +55,11 @@ class PodPage extends StatelessWidget {
                     children: [
                       Obx(() {
                         if (userController.profile.value == null) {
-                          return const SizedBox.shrink(); // Nasconde l'AppBar finché il profilo non è caricato
+                          return const SizedBox.shrink();
                         }
                         return CustomPodAppBar(profile: userController.profile.value!);
                       }),
+                      const ReportWidget(),
                       Obx(() {
                         final latestGoal = goalController.latestAchievedGoal;
                         if (latestGoal != null) {
@@ -106,7 +108,7 @@ class PodPage extends StatelessWidget {
                 right: 0,
                 child: Obx(() {
                   if (profileController.profile.value == null) {
-                    return CircularProgressIndicator(); // Mostra un indicatore di caricamento finché il profilo non è disponibile
+                    return const CircularProgressIndicator();
                   }
                   return Navigation(profile: profileController.profile.value!);
                 }),

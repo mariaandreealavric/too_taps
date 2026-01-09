@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../../generated/l10n.dart';
 import '../../controllers/share_controller.dart';
 
@@ -7,9 +6,9 @@ class ShareButton extends StatelessWidget {
   final ShareController shareController;
 
   const ShareButton({
-    Key? key,
+    super.key,
     required this.shareController,
-  }) : super(key: key);
+  });
 
   void _showShareOptions(BuildContext context) {
     showModalBottomSheet(
@@ -40,6 +39,30 @@ class ShareButton extends StatelessWidget {
               onTap: () {
                 Navigator.pop(context);
                 shareController.shareOnInstagram();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.message, color: Colors.deepOrange),
+              title: const Text('Share on Threads'),
+              onTap: () {
+                Navigator.pop(context);
+                shareController.shareOnThreads();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.music_note, color: Colors.pinkAccent),
+              title: const Text('Share on TikTok'),
+              onTap: () {
+                Navigator.pop(context);
+                shareController.shareOnTikTok();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.chat, color: Colors.green),
+              title: const Text('Share on WhatsApp'),
+              onTap: () {
+                Navigator.pop(context);
+                shareController.shareOnWhatsApp();
               },
             ),
           ],

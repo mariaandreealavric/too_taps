@@ -6,7 +6,6 @@ import '../Widgets/Navigazione/navigazione.dart';
 import '../controllers/Contatori/scroll_counter.dart';
 import '../controllers/Contatori/touch_counter.dart';
 import '../controllers/user_controller.dart';
-import '../controllers/theme_controller.dart';
 
 class TapsHomePage extends StatefulWidget {
   final String userID;
@@ -61,7 +60,6 @@ class TapsHomePageState extends State<TapsHomePage> with SingleTickerProviderSta
     _logger.i('TapsHomePage: Building with userID ${widget.userID}');
 
     // Use GetX for ThemeController
-    final themeController = Get.find<ThemeController>();
     final profileController = Get.find<UserController>(); // GetX ProfileController
     final scrollCounter = Get.find<ScrollCounter>(); // Usa GetX per il ScrollCounter
     final touchCounter = Get.find<TouchCounter>(); // Usa GetX per il TouchCounter
@@ -73,7 +71,6 @@ class TapsHomePageState extends State<TapsHomePage> with SingleTickerProviderSta
 
     final profile = profileController.profile.value;
 
-    // Se il profilo non è caricato, mostra un indicatore di caricamento
     if (profile == null) {
       return const Center(child: CircularProgressIndicator());
     }

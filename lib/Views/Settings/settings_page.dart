@@ -40,13 +40,15 @@ class SettingsPage extends StatelessWidget {
               leading: const Icon(Icons.notifications),
               title: const Text('Notifications', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ),
-            SwitchListTile(
-              title: const Text('Enable Notifications'),
-              value: settingsController.notificationsEnabled.value,
-              onChanged: (value) {
-                settingsController.toggleNotifications();
-              },
-            ),
+            Obx(() {
+              return SwitchListTile(
+                title: const Text('Enable Notifications'),
+                value: settingsController.notificationsEnabled.value,
+                onChanged: (value) {
+                  settingsController.setNotifications(value);
+                },
+              );
+            }),
             const Divider(),
              ListTile(
               leading: Icon(Icons.language),

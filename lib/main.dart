@@ -9,6 +9,9 @@ import 'controllers/Contatori/touch_counter.dart';
 import 'controllers/language_controller.dart';
 import 'controllers/user_controller.dart';
 import 'controllers/theme_controller.dart';
+import 'controllers/statue_controller.dart';
+import 'controllers/settings_controller.dart';
+import 'controllers/scroll_analysis_controller.dart';
 import 'firebase_options.dart';
 import 'generated/l10n.dart';
 import 'services/notification_service.dart';
@@ -21,7 +24,12 @@ void main() async {
   );
 
   final notificationService = NotificationService();
-  await notificationService.initialize();
+  await notificationService.initialize(onNotificationTap: (payload) {
+    if (payload != null && payload.isNotEmpty) {
+      Get.toNamed(payload);
+    }
+  });
+  Get.put(notificationService);
 
   // Inizializza i controller
   Get.put(UserController());
@@ -39,9 +47,9 @@ void main() async {
   final userProfile = userController.profile.value;
 
   if (userProfile != null) {
-    // Inizializza i contatori con il profilo caricato da Firebase
     Get.put(ScrollCounter(userProfile));
     Get.put(TouchCounter(userProfile));
+    Get.put(ScrollAnalysisController());
   } else {
     print('Errore: Profilo utente non disponibile.');
   }
@@ -49,6 +57,8 @@ void main() async {
   // Inizializza gli altri controller
   Get.put(ThemeController());
   Get.put(LanguageController());
+  Get.put(SettingsController());
+  Get.put(StatueController());
 
   runApp(const MyApp());
 }
@@ -97,6 +107,9 @@ class MyApp extends StatelessWidget {
         case 'onScrollEvent':
           _handleScrollEvent();
           break;
+        case 'onStatueStateChanged':
+          _handleStatueState(call.arguments);
+          break;
         default:
           throw MissingPluginException('Not implemented: ${call.method}');
       }
@@ -111,5 +124,15 @@ class MyApp extends StatelessWidget {
   void _handleScrollEvent() {
     print('Scroll event detected');
     Get.find<ScrollCounter>().incrementScrolls();
+  }
+
+  void _handleStatueState(dynamic arguments) {
+    if (!Get.isRegistered<StatueController>()) {
+      return;
+    }
+
+    if (arguments is Map) {
+      Get.find<StatueController>().handleNativeUpdate(arguments);
+    }
   }
 }

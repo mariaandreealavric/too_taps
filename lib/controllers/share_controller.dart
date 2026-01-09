@@ -30,4 +30,25 @@ class ShareController extends GetxController {
       text: postText,
     );
   }
+
+  void shareOnThreads() {
+    Share.share(
+      "$postText #Threads",
+      subject: "Condividi su Threads",
+    );
+  }
+
+  void shareOnTikTok() {
+    Share.share(
+      "$postText #TikTok",
+      subject: "Condividi su TikTok",
+    );
+  }
+
+  void shareOnWhatsApp() {
+    Share.share(
+      postText,
+      subject: "Condividi su WhatsApp",
+    );
+  }
 }

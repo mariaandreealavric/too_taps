@@ -1,8 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class UnrealWidget extends StatelessWidget {
-  const UnrealWidget({Key? key}) : super(key: key);
+  const UnrealWidget({super.key});
 
   static const MethodChannel _channel = MethodChannel('flutter_unreal');
 
@@ -22,11 +23,37 @@ class UnrealWidget extends StatelessWidget {
     await _channel.invokeMethod('saveData');
   }
 
+  static Future<void> sendTapEvent({required int taps, Offset? position}) async {
+    final payload = <String, dynamic>{
+      'event': 'tap',
+      'taps': taps,
+    };
+
+    if (position != null) {
+      payload['x'] = position.dx;
+      payload['y'] = position.dy;
+    }
+
+    await _channel.invokeMethod('handleTap', payload);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return AndroidView(
-      viewType: 'unreal_texture_view',
-      layoutDirection: TextDirection.ltr,
-    );
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        return const AndroidView(
+          viewType: 'unreal_texture_view',
+          layoutDirection: TextDirection.ltr,
+        );
+      case TargetPlatform.iOS:
+        return const UiKitView(
+          viewType: 'unreal_texture_view',
+          layoutDirection: TextDirection.ltr,
+        );
+      default:
+        return const Center(
+          child: Text('Piattaforma non supportata per UnrealView'),
+        );
+    }
   }
 }

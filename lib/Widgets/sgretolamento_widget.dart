@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
+import 'package:get/get.dart';
+
+import '../controllers/statue_controller.dart';
+import 'unreal_widget.dart';
 
 class SgretolamentoWidget extends StatefulWidget {
   const SgretolamentoWidget({super.key});
@@ -8,200 +11,120 @@ class SgretolamentoWidget extends StatefulWidget {
   SgretolamentoWidgetState createState() => SgretolamentoWidgetState();
 }
 
-class SgretolamentoWidgetState extends State<SgretolamentoWidget>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late List<Particle> _particles;
-  late Image _image;
-  bool _isImageLoaded = false;
-  int _taps = 0; // Contatore dei tocchi
-  Offset _touchPoint = Offset.zero; // Punto di tocco
+class SgretolamentoWidgetState extends State<SgretolamentoWidget> {
+  late final StatueController _statueController;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    );
-    _controller.addListener(() {
-      setState(() {
-        for (var particle in _particles) {
-          particle.update(Size(
-              _image.width?.toDouble() ?? 0, _image.height?.toDouble() ?? 0));
-        }
-      });
-    });
-
-    _controller.addListener(() {
-      setState(() {
-        _particles.removeWhere((particle) => particle.isDead);
-        for (var particle in _particles) {
-          particle.update(Size(
-              _image.width?.toDouble() ?? 0, _image.height?.toDouble() ?? 0));
-        }
-      });
-    });
-
-
-    _particles = [];
-    _image = Image.asset(
-        'assets/amorepsiche.jpg'); // Sostituisci con il tuo asset immagine
-    _image.image.resolve(const ImageConfiguration()).addListener(
-      ImageStreamListener((ImageInfo info, bool synchronousCall) {
-        setState(() {
-          _isImageLoaded = true;
-        });
-      }),
-    );
+    _statueController = Get.isRegistered<StatueController>()
+        ? Get.find<StatueController>()
+        : Get.put(StatueController());
   }
 
-  void _generateParticles(Size imageSize, Offset touchPoint) {
-    _particles.clear();
-    for (int i = 0; i < 200; i++) {
-      Offset startPoint;
-      if (touchPoint.dx >= 0 &&
-          touchPoint.dx <= imageSize.width &&
-          touchPoint.dy >= 0 &&
-          touchPoint.dy <= imageSize.height) {
-        startPoint = touchPoint;
-      } else {
-        startPoint = Offset(
-          Random().nextDouble() * imageSize.width,
-          Random().nextDouble() * imageSize.height,
-        );
-      }
-      _particles.add(Particle.fromStartPoint(startPoint));
-    }
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _handleTouchEvent(TapUpDetails details) {
-    setState(() {
-      _taps++; // Incrementa il contatore dei tocchi
-      _touchPoint = details.localPosition;
-
-      _generateParticles(
-          Size(_image.width?.toDouble() ?? 0, _image.height?.toDouble() ?? 0),
-          _touchPoint);
-
-      if (_controller.status == AnimationStatus.completed) {
-        _controller.reverse();
-      } else {
-        _controller.forward(from: 0.0);
-      }
-    });
+  void _handleTap(TapUpDetails details) {
+    _statueController.registerTap(details.localPosition);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            child: GestureDetector(
-              onTapUp: _handleTouchEvent,
-              child: _isImageLoaded
-                  ? Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    color: Colors.white,
-                    width: _image.width?.toDouble(),
-                    height: _image.height?.toDouble(),
-                    child: _image,
-                  ),
-                  CustomPaint(
-                    size: Size(_image.width?.toDouble() ?? 0,
-                        _image.height?.toDouble() ?? 0),
-                    painter: SgretolamentoPainter(_particles),
-                  ),
-                ],
-              )
-                  : const Center(
-                child: CircularProgressIndicator(),
+    return Column(
+      children: [
+        Expanded(
+          child: Stack(
+            children: [
+              const DecoratedBox(
+                decoration: BoxDecoration(color: Colors.black),
+                child: UnrealWidget(),
               ),
+              Positioned.fill(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTapUp: _handleTap,
+                ),
+              ),
+              Positioned(
+                top: 20,
+                left: 20,
+                right: 20,
+                child: Obx(() {
+                  final destroyed = _statueController.isDestroyed.value;
+                  final label = _statueController.statusLabel.value;
+                  return _StatusBanner(
+                    message: label,
+                    destroyed: destroyed,
+                  );
+                }),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        Obx(() {
+          final taps = _statueController.tapCount.value;
+          return Text(
+            'Tocchi registrati: $taps',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
             ),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'Tocchi: $_taps',
-            style: const TextStyle(fontSize: 20),
-          ),
-        ],
-      ),
+          );
+        }),
+        const SizedBox(height: 12),
+        Obx(() {
+          final ready = _statueController.engineReady.value;
+          final destroyed = _statueController.isDestroyed.value;
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 24),
+            child: ready
+                ? ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          destroyed ? Colors.redAccent : Colors.white,
+                      foregroundColor:
+                          destroyed ? Colors.white : Colors.black,
+                    ),
+                    onPressed: _statueController.resetStatue,
+                    icon: const Icon(Icons.restart_alt),
+                    label: Text(
+                        destroyed ? 'Rigenera statua' : 'Reset statua'),
+                  )
+                : const CircularProgressIndicator(),
+          );
+        }),
+      ],
     );
   }
 }
 
-class SgretolamentoPainter extends CustomPainter {
-  final List<Particle> particles;
+class _StatusBanner extends StatelessWidget {
+  final String message;
+  final bool destroyed;
 
-  SgretolamentoPainter(this.particles);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    // Dipinge le particelle
-    final paint = Paint()..color = Colors.white;
-    for (var particle in particles) {
-      particle.paint(canvas, paint);
-    }
-  }
+  const _StatusBanner({
+    required this.message,
+    required this.destroyed,
+  });
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
-}
-
-class Particle {
-  double x, y, dx, dy, size;
-  final Random random = Random();
-  bool isDead = false;
-  Particle(this.x, this.y, this.dx, this.dy, this.size);
-
-  Particle.fromStartPoint(Offset startPoint)
-      : x = startPoint.dx,
-        y = startPoint.dy,
-        dx = (Random().nextDouble() - 0.5) * 4,
-        dy = Random().nextDouble() * 8,
-        size = Random().nextDouble() * 3;
-
-  Particle.randomPoint(Size imageSize)
-      : x = Random().nextDouble() * imageSize.width,
-        y = Random().nextDouble() * imageSize.height,
-        dx = (Random().nextDouble() - 0.5) * 4,
-        dy = Random().nextDouble() * 8,
-        size = Random().nextDouble() * 3;
-
-  void update(Size imageSize) {
-    x += dx;
-    y += dy;
-    // Rimuovi la particella se è completamente al di fuori dei bordi dell'immagine
-    if (x < 0 || x > imageSize.width || y > imageSize.height) {
-      isDead = true;
-    }
-    // Limita il movimento delle particelle alla larghezza dell'immagine
-    if (x < 0) {
-      x = 0;
-    }
-    if (x > imageSize.width) {
-      x = imageSize.width;
-    }
-    // Limita il movimento delle particelle alla parte superiore dell'immagine
-    if (y < 0) {
-      y = 0;
-    }
-  }
-
-
-  void paint(Canvas canvas, Paint paint) {
-    canvas.drawCircle(Offset(x, y), size, paint);
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: destroyed ? Colors.redAccent.withOpacity(0.8) : Colors.white,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Text(
+          message,
+          style: TextStyle(
+            color: destroyed ? Colors.white : Colors.black,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
   }
 }
-
-
